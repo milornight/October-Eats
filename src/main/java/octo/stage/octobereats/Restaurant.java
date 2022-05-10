@@ -1,6 +1,6 @@
 package octo.stage.octobereats;
 
-import static java.util.UUID.randomUUID;
+import java.util.List;
 
 public class Restaurant {
 
@@ -8,14 +8,13 @@ public class Restaurant {
     private long id;
     private String nom;
     private String type;
-    private Plat plat;
+    private List<Plat> plat;
 
-    public Restaurant(){}
-
-    public Restaurant(String nom, String type) {
+    public Restaurant(String nom, String type, List<Plat> P) {
         this.id = ++count;
         this.nom = nom;
         this.type = type;
+        this.plat = P;
     }
 
     public long getId() {
@@ -36,6 +35,10 @@ public class Restaurant {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public List<Plat> getPlats() {
+        return plat;
     }
 
     @Override

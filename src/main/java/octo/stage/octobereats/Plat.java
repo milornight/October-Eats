@@ -1,24 +1,19 @@
 package octo.stage.octobereats;
 
-import java.util.UUID;
-
-import static java.util.UUID.randomUUID;
-
 public class Plat {
 
-    private UUID id;
+    private static long count = 0;
+    private long id;
     private String nom;
     private float prix;
 
-    public Plat(){}
-
     public Plat(String nom, float prix) {
-        this.id = randomUUID();
+        this.id = ++count;
         this.nom = nom;
         this.prix = prix;
     }
 
-    public UUID getId() {
+    public long getId() {
         return this.id;
     }
 
@@ -34,7 +29,7 @@ public class Plat {
         this.nom = nom;
     }
 
-    public void setPrix(float Prix) {
+    public void setPrix(float prix) {
         this.prix = prix;
     }
 

@@ -20,4 +20,9 @@ public class RestaurantController {
     public Restaurant one(@PathVariable long id) {
         return R.findById(id);
     }
+
+    @GetMapping("/restaurants/{id}/plats")
+    public List<Plat> plats(@PathVariable long id) {
+        return R.findById(id).getPlats();
+    }
 }

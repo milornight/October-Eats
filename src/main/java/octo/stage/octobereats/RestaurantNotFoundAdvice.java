@@ -1,4 +1,4 @@
-package octo.stage.octobereats;
+/*package octo.stage.octobereats;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,3 +16,4 @@ public class RestaurantNotFoundAdvice {
         return ex.getMessage();
     }
 }
+*/

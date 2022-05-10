@@ -1,4 +1,4 @@
-package octo.stage.octobereats;
+/*package octo.stage.octobereats;
 
 public class RestaurantNotFoundException extends RuntimeException {
 
@@ -6,3 +6,4 @@ public class RestaurantNotFoundException extends RuntimeException {
         super("Could not find restaurant " + id);
     }
 }
+*/
