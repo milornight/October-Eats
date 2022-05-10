@@ -1,11 +1,11 @@
 package octo.stage.octobereats;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import static java.util.UUID.randomUUID;
 
 public class Restaurant {
 
-    private @Id @GeneratedValue Long id;
+    private static long count = 0;
+    private long id;
     private String nom;
     private String type;
     private Plat plat;
@@ -13,12 +13,12 @@ public class Restaurant {
     public Restaurant(){}
 
     public Restaurant(String nom, String type) {
-
+        this.id = ++count;
         this.nom = nom;
         this.type = type;
     }
 
-    public Long getId() {
+    public long getId() {
         return this.id;
     }
 
@@ -29,7 +29,6 @@ public class Restaurant {
     public String getType() {
         return this.type;
     }
-
 
     public void setNom(String nom) {
         this.nom = nom;

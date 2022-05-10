@@ -1,6 +1,7 @@
 package octo.stage.octobereats;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+interface RestaurantRepository {
+    public List<Restaurant> getRestaurants();
 }

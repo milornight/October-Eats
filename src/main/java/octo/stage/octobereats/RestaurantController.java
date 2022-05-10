@@ -1,29 +1,23 @@
 package octo.stage.octobereats;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class RestaurantController {
 
-    private final RestaurantRepository repository;
-
-    RestaurantController(RestaurantRepository repository) {
-        this.repository = repository;
-    }
+    RestaurantRepo R = new RestaurantRepo();
 
     @GetMapping("/restaurants")
-    List<Restaurant> all() {
-        return repository.findAll();
+    public List<Restaurant> restaurants(){
+        return R.getRestaurants();
     }
 
     @GetMapping("/restaurants/{id}")
-    Restaurant res(@PathVariable Long id) {
-
-        return repository.findById(id)
-                .orElseThrow(() -> new RestaurantNotFoundException(id));
+    public Restaurant one(@PathVariable long id) {
+        return R.findById(id);
     }
 }

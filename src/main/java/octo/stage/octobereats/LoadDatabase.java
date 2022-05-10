@@ -1,4 +1,4 @@
-package octo.stage.octobereats;
+/*package octo.stage.octobereats;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,3 +22,4 @@ public class LoadDatabase {
         };
     }
 }
+*/

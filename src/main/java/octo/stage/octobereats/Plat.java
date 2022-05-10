@@ -1,23 +1,24 @@
 package octo.stage.octobereats;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import java.util.UUID;
+
+import static java.util.UUID.randomUUID;
 
 public class Plat {
 
-    private @Id @GeneratedValue Long id;
+    private UUID id;
     private String nom;
     private float prix;
 
     public Plat(){}
 
     public Plat(String nom, float prix) {
-
+        this.id = randomUUID();
         this.nom = nom;
         this.prix = prix;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return this.id;
     }
 
