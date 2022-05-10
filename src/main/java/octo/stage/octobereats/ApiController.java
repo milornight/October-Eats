@@ -8,7 +8,6 @@ public class ApiController {
 
     @GetMapping("/ready")
     public API api(){
-        API api = new API();
-        return api;
+        return new API();
     }
 }

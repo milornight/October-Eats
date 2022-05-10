@@ -4,11 +4,12 @@ public class API {
 
     private final String status;
 
-    public API(){
+    public API() {
         this.status = "up";
     }
 
-    public String ApiStatus(String status){
+    public String getApi() {
         return status;
     }
 }
+
