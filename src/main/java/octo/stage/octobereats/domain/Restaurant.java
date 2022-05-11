@@ -1,4 +1,4 @@
-package octo.stage.octobereats;
+package octo.stage.octobereats.domain;
 
 import java.util.List;
 
@@ -8,17 +8,21 @@ public class Restaurant {
     private long id;
     private String nom;
     private String type;
-    private List<Plat> plat;
+    private List<Plat> plats;
 
-    public Restaurant(String nom, String type, List<Plat> P) {
+    public Restaurant(String nom, String type, List<Plat> plats) {
         this.id = ++count;
         this.nom = nom;
         this.type = type;
-        this.plat = P;
+        this.plats = plats;
     }
 
     public long getId() {
         return this.id;
+    }
+
+    public void setId(long id){
+        this.id = id;
     }
 
     public String getNom() {
@@ -38,12 +42,12 @@ public class Restaurant {
     }
 
     public List<Plat> getPlats() {
-        return plat;
+        return plats;
     }
 
     @Override
     public String toString() {
         return "Restaurant{" + "id=" + this.id + ", nom='" + this.nom + '\'' +
-                ", type='" + this.type + '\'' + ", Plat='" + this.plat + '\'' +'}';
+                ", type='" + this.type + '\'' + ", Plats='" + this.plats + '\'' +'}';
     }
 }

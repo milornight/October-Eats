@@ -1,4 +1,4 @@
-package octo.stage.octobereats;
+package octo.stage.octobereats.domain;
 
 public class Plat {
 

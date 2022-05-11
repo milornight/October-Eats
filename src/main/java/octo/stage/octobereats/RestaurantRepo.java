@@ -1,8 +1,13 @@
 package octo.stage.octobereats;
 
+import octo.stage.octobereats.domain.Plat;
+import octo.stage.octobereats.domain.Restaurant;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class RestaurantRepo implements RestaurantRepository {
 
     private List<Restaurant> list = new ArrayList<Restaurant>();
@@ -49,18 +54,18 @@ public class RestaurantRepo implements RestaurantRepository {
     }
 
     public Restaurant findById(long id) {
-        for (int i = 0; i < list.size(); i++) {
-            if (id == list.get(i).getId()) {
-                return list.get(i);
+        for (Restaurant restaurant : list) {
+            if (id == restaurant.getId()) {
+                return restaurant;
             }
         }
         return null;
     }
 
     public List<Plat> getPlats(long id) {
-        for (int i = 0; i < list.size(); i++) {
-            if (id == list.get(i).getId()) {
-                return list.get(i).getPlats();
+        for (Restaurant restaurant : list) {
+            if (id == restaurant.getId()) {
+                return restaurant.getPlats();
             }
         }
         return null;
