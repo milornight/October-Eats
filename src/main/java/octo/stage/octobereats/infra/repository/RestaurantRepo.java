@@ -1,4 +1,4 @@
-package octo.stage.octobereats;
+package octo.stage.octobereats.infra.repository;
 
 import octo.stage.octobereats.domain.Plat;
 import octo.stage.octobereats.domain.Restaurant;

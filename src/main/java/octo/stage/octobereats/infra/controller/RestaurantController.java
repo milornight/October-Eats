@@ -1,8 +1,8 @@
-package octo.stage.octobereats.infra;
+package octo.stage.octobereats.infra.controller;
 
-import octo.stage.octobereats.RestaurantRepository;
 import octo.stage.octobereats.domain.Plat;
 import octo.stage.octobereats.domain.Restaurant;
+import octo.stage.octobereats.infra.repository.RestaurantRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

@@ -6,7 +6,9 @@ import java.util.List;
 
 import octo.stage.octobereats.domain.Plat;
 import octo.stage.octobereats.domain.Restaurant;
-import octo.stage.octobereats.infra.RestaurantController;
+import octo.stage.octobereats.infra.controller.RestaurantController;
+import octo.stage.octobereats.infra.repository.RestaurantRepo;
+import octo.stage.octobereats.infra.repository.RestaurantRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;

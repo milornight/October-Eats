@@ -14,8 +14,16 @@ public class PlatCommande {
         return quantite;
     }
 
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
+    }
+
     public Plat getPlat() {
         return plat;
+    }
+
+    public void setPlat(Plat plat) {
+        this.plat = plat;
     }
 
     @Override

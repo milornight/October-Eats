@@ -2,7 +2,6 @@ package octo.stage.octobereats.domain;
 
 import java.util.List;
 
-
 public class Commande {
     private long idRestaurant;
     private List<PlatCommande> platCommande;
@@ -16,8 +15,16 @@ public class Commande {
         return idRestaurant;
     }
 
+    public void setIdRestaurant(long idRestaurant){
+        this.idRestaurant = idRestaurant;
+    }
+
     public List<PlatCommande> getPlatCommandes() {
         return platCommande;
+    }
+
+    public void setPlatCommandes(List<PlatCommande> platCommande) {
+        this.platCommande = platCommande;
     }
 
 

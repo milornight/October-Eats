@@ -1,5 +1,6 @@
-package octo.stage.octobereats;
+package octo.stage.octobereats.infra.controller;
 
+import octo.stage.octobereats.API;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
