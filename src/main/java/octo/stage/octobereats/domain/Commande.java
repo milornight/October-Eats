@@ -4,14 +4,11 @@ import java.util.List;
 
 public class Commande {
     private long idRestaurant;
-    //private List<PlatCommande> platCommande;
-    private Plat plat;
-    private int quantite;
+    private List<PlatCommande> platCommande;
 
-    public Commande(long idRestaurant, Plat plat, int quantite) {
+    public Commande(long idRestaurant, List<PlatCommande> platCommande) {
         this.idRestaurant = idRestaurant;
-        this.plat = plat;
-        this.quantite = quantite;
+        this.platCommande = platCommande;
     }
 
     public long getIdRestaurant(){
@@ -22,33 +19,18 @@ public class Commande {
         this.idRestaurant = idRestaurant;
     }
 
-    /*public List<PlatCommande> getPlatCommandes() {
+    public List<PlatCommande> getPlatCommandes() {
         return platCommande;
     }
 
     public void setPlatCommandes(List<PlatCommande> platCommande) {
         this.platCommande = platCommande;
-    }*/
-
-    public Plat getPlat() {
-        return plat;
     }
 
-    public void setPlat(Plat plat) {
-        this.plat = plat;
-    }
-
-    public int getQuantite() {
-        return quantite;
-    }
-
-    public void setQuantite(int quantite) {
-        this.quantite = quantite;
-    }
 
     @Override
     public String toString() {
-        return "Commande{" + "idRestaurant=" + this.idRestaurant + '\'' + ", Plat='" + this.plat + '\'' + ", Quantite='" + this.quantite + '\'' + '}';
+        return "Commande{" + "idRestaurant=" + this.idRestaurant + '\'' + ", Plats='" + this.platCommande + '\'' + '}';
     }
 
 }

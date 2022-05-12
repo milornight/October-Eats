@@ -1,4 +1,4 @@
-/*package octo.stage.octobereats.domain;
+package octo.stage.octobereats.domain;
 
 public class PlatCommande {
 
@@ -30,4 +30,4 @@ public class PlatCommande {
     public String toString() {
         return "PlatCommande{" + "Plat=" + this.plat + '\'' + ", Quantite='" + this.quantite + '\'' + '}';
     }
-}*/
+}
