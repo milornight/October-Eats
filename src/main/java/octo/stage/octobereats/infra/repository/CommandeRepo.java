@@ -15,9 +15,9 @@ public class CommandeRepo implements CommandeRepository{
         return list;
     }
 
-    public String addCommande(Commande commande){
+    public Commande addCommande(Commande commande){
         list.add(commande);
-        return commande.toString();
+        return commande;
     }
 
 }

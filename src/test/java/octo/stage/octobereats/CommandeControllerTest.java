@@ -5,8 +5,6 @@ import static org.mockito.Mockito.times;
 import java.util.List;
 
 import octo.stage.octobereats.domain.Commande;
-import octo.stage.octobereats.domain.Plat;
-import octo.stage.octobereats.domain.Restaurant;
 import octo.stage.octobereats.infra.controller.CommandeController;
 import octo.stage.octobereats.infra.repository.CommandeRepo;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
@@ -17,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.BodyInserters;
 
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = CommandeController.class)
@@ -32,43 +32,44 @@ public class CommandeControllerTest {
     CommandeRepository commandeRepo;
 
     @Test
-    public void testGetCommande() {
-        List<PlatCommande> listPlatCommande = List.of(new PlatCommande(new Plat("chesse",10),2));
-        Commande commande = new Commande(1,listPlatCommande);
+    public void testGetCommandes() {
+        List<Commande> listCommande = List.of(new Commande(1,2,2),new Commande(2,5,1));
 
-        Mockito.when(commandeController.newCommande(commande)).thenReturn(commande.toString());
-
-        webClient.post()
-                .uri("/commandes")
-                .exchange()
-                .expectStatus().isOk();
-
-        Mockito.verify(commandeController, times(1)).newCommande(commande);
-    }
-
-    public void testGetRestaurants() {
-        List<Plat> listPlat = List.of(new Plat("chesse",10));
-        List<Restaurant> listRestaurant = List.of(new Restaurant("toto","francais",listPlat),
-                new Restaurant("kiki","asiatique",null));
-
-        Mockito.when(restaurantRepo.getRestaurants()).thenReturn(listRestaurant);
+        Mockito.when(commandeRepo.getCommandes()).thenReturn(listCommande);
 
         webClient.get()
-                .uri("/restaurants")
+                .uri("/commandes")
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
-                .jsonPath("$.[0].id").isEqualTo(1)
-                .jsonPath("$.[0].nom").isEqualTo("toto")
-                .jsonPath("$.[0].type").isEqualTo("francais")
-                .jsonPath("$.[0].plats.[0].id").isEqualTo(1)
-                .jsonPath("$.[0].plats.[0].nom").isEqualTo("chesse")
-                .jsonPath("$.[0].plats.[0].prix").isEqualTo(10)
-                .jsonPath("$.[1].id").isEqualTo(2)
-                .jsonPath("$.[1].nom").isEqualTo("kiki")
-                .jsonPath("$.[1].type").isEqualTo("asiatique")
-                .jsonPath("$.[1].plats").isEqualTo(null);
+                .jsonPath("$.[0].idRestaurant").isEqualTo(1)
+                .jsonPath("$.[0].idPlat").isEqualTo(2)
+                .jsonPath("$.[0].quantite").isEqualTo(2)
+                .jsonPath("$.[1].idRestaurant").isEqualTo(2)
+                .jsonPath("$.[1].idPlat").isEqualTo(5)
+                .jsonPath("$.[1].quantite").isEqualTo(1);
 
-        Mockito.verify(restaurantRepo, times(1)).getRestaurants();
+        Mockito.verify(commandeRepo, times(1)).getCommandes();
+    }
+
+    @Test
+    public void testAddCommande() {
+        Commande commande = new Commande(1,2,3);
+
+        Mockito.when(commandeRepo.addCommande(commande)).thenReturn(commande);
+
+        webClient.post()
+                .uri("/commandes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(commande)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.idRestaurant").isEqualTo(1)
+                .jsonPath("$.idPlat").isEqualTo(2)
+                .jsonPath("$.quantite").isEqualTo(3);
+
+
+        Mockito.verify(commandeRepo, times(1)).addCommande(commande);
     }
 }

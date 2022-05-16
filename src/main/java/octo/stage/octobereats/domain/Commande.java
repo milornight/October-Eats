@@ -38,8 +38,8 @@ public class Commande {
 
     @Override
     public String toString() {
-        return "Commande{" + "idRestaurant=" + this.idRestaurant + '\'' + ", idPlat='" + this.idPlat + '\'' +
-                ", Quantite='" + this.quantite + '\'' + '}';
+        return "PlatCommande{" + "idRestaurant=" + this.idRestaurant + '\'' + ", idPlat='" + this.idPlat + '\'' +
+                ", quantite='" + this.quantite + '\'' + '}';
     }
 
 

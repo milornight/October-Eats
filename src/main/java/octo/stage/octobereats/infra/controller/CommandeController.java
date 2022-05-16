@@ -25,7 +25,7 @@ public class CommandeController {
     }
 
     @PostMapping("/commandes")
-    public String newCommande(@RequestBody Commande commande) {
+    public Commande newCommande(@RequestBody Commande commande) {
         System.out.println(commande);
         return commandeRepository.addCommande(commande);
     }

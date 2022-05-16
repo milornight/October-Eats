@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CommandeRepository {
     public List<Commande> getCommandes();
-    public String addCommande(Commande commande);
+    public Commande addCommande(Commande commande);
 }
