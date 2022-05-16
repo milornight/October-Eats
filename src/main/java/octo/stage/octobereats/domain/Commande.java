@@ -1,14 +1,14 @@
 package octo.stage.octobereats.domain;
 
-import java.util.List;
-
 public class Commande {
     private long idRestaurant;
-    private List<PlatCommande> platCommande;
+    private long idPlat;
+    private int quantite;
 
-    public Commande(long idRestaurant, List<PlatCommande> platCommande) {
+    public Commande(long idRestaurant, long idPlat, int quantite) {
         this.idRestaurant = idRestaurant;
-        this.platCommande = platCommande;
+        this.idPlat = idPlat;
+        this.quantite = quantite;
     }
 
     public long getIdRestaurant(){
@@ -19,18 +19,29 @@ public class Commande {
         this.idRestaurant = idRestaurant;
     }
 
-    public List<PlatCommande> getPlatCommandes() {
-        return platCommande;
+    public long getIdPlat() {
+        return idPlat;
     }
 
-    public void setPlatCommandes(List<PlatCommande> platCommande) {
-        this.platCommande = platCommande;
+    public void setIdPlat(long idPlat) {
+        this.idPlat = idPlat;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
     }
 
 
     @Override
     public String toString() {
-        return "Commande{" + "idRestaurant=" + this.idRestaurant + '\'' + ", Plats='" + this.platCommande + '\'' + '}';
+        return "Commande{" + "idRestaurant=" + this.idRestaurant + '\'' + ", idPlat='" + this.idPlat + '\'' +
+                ", Quantite='" + this.quantite + '\'' + '}';
     }
+
+
 
 }
