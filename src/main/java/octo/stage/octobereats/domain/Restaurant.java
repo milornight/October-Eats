@@ -1,6 +1,7 @@
 package octo.stage.octobereats.domain;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Restaurant {
 
@@ -43,6 +44,19 @@ public class Restaurant {
 
     public List<Plat> getPlats() {
         return plats;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Restaurant that = (Restaurant) o;
+        return id == that.id && Objects.equals(nom, that.nom) && Objects.equals(type, that.type) && Objects.equals(plats, that.plats);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nom, type, plats);
     }
 
     @Override

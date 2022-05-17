@@ -24,6 +24,8 @@ public class CommandeController {
         return commandeRepository.getCommandes();
     }
 
+    //@GetMapping("/restaurants/{id}/commandes)
+
     @PostMapping("/commandes")
     public Commande newCommande(@RequestBody Commande commande) {
         System.out.println(commande);

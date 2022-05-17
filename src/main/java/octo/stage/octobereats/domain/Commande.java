@@ -1,5 +1,7 @@
 package octo.stage.octobereats.domain;
 
+import java.util.Objects;
+
 public class Commande {
     private long idRestaurant;
     private long idPlat;
@@ -35,6 +37,18 @@ public class Commande {
         this.quantite = quantite;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Commande commande = (Commande) o;
+        return idRestaurant == commande.idRestaurant && idPlat == commande.idPlat && quantite == commande.quantite;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idRestaurant, idPlat, quantite);
+    }
 
     @Override
     public String toString() {
