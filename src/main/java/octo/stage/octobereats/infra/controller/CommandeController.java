@@ -32,9 +32,9 @@ public class CommandeController {
 
     @GetMapping("/restaurants/{id}/commandes")
     @ResponseBody
-    public List<Commande> GetCommandeRestaurant(@PathVariable long id) {
-
-        return commandeRepository.findById(id);
+    public Flux<Commande> GetCommandeRestaurant(@PathVariable long id) {
+        List<Commande> listCommande = commandeRepository.findById(id);
+        return Flux.fromIterable(listCommande);
     }
 
     @PostMapping("/commandes")
