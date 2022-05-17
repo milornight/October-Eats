@@ -3,6 +3,7 @@ package octo.stage.octobereats.infra.controller;
 import octo.stage.octobereats.domain.Plat;
 import octo.stage.octobereats.domain.Restaurant;
 import octo.stage.octobereats.infra.repository.RestaurantRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
