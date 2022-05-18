@@ -1,20 +1,13 @@
 package octo.stage.octobereats.infra.controller;
 
 import octo.stage.octobereats.domain.Commande;
-import octo.stage.octobereats.domain.Restaurant;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
+import octo.stage.octobereats.infra.CommandeFlux;
+import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.server.ServerRequest;
-import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.util.List;
 
 @RestController
@@ -22,6 +15,9 @@ public class CommandeController {
 
     @Autowired
     CommandeRepository commandeRepository;
+
+    @Autowired
+    CommandeFlux commandeFlux;
 
     public CommandeController(CommandeRepository commandeRepository) {
         this.commandeRepository = commandeRepository;
@@ -31,7 +27,6 @@ public class CommandeController {
     public List<Commande> commandes(){
         return commandeRepository.getCommandes();
     }
-
 
     /*@GetMapping("/restaurants/{id}/commandes")
     public List<Commande> CommandeRestaurant(@PathVariable long id) {
@@ -52,16 +47,25 @@ public class CommandeController {
                 .log();
     }*/
 
-    @GetMapping(path="/restaurants/{id}/commandes", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
+   /* @GetMapping(path="/restaurants/{id}/commandes", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Commande> CommandeRestaurant(@PathVariable long id) {
-        return Flux.interval(Duration.ofSeconds(1))
+        Flux<Commande> fluxCommande = Flux.interval(Duration.ofSeconds(1))
                 .fromIterable(commandeRepository.findById(id))
                 .log();
+        fluxCommande.subscribe();
+        return fluxCommande;
+    }*/
+
+    @GetMapping(path="/restaurants/{id}/commandes", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Publisher<Commande> GetCommandeRestaurant(@PathVariable long id) {
+        return commandeFlux.getCommandesPublisher();
+        //.filter(id);
     }
 
     @PostMapping("/commandes")
     public Commande newCommande(@RequestBody Commande commande) {
         System.out.println(commande);
+        commandeFlux.getCommandesStream().next(commande);
         return commandeRepository.addCommande(commande);
     }
 
