@@ -3,14 +3,24 @@ package octo.stage.octobereats.domain;
 import java.util.Objects;
 
 public class Commande {
+    private long idClient;
     private long idRestaurant;
     private long idPlat;
     private int quantite;
 
-    public Commande(long idRestaurant, long idPlat, int quantite) {
+    public Commande( long idClient, long idRestaurant, long idPlat, int quantite) {
+        this.idClient = idClient;
         this.idRestaurant = idRestaurant;
         this.idPlat = idPlat;
         this.quantite = quantite;
+    }
+
+    public long getIdClient() {
+        return idClient;
+    }
+
+    public void setIdClient(long idClient) {
+        this.idClient = idClient;
     }
 
     public long getIdRestaurant(){
@@ -42,20 +52,21 @@ public class Commande {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Commande commande = (Commande) o;
-        return idRestaurant == commande.idRestaurant && idPlat == commande.idPlat && quantite == commande.quantite;
+        return idClient == commande.idClient && idRestaurant == commande.idRestaurant && idPlat == commande.idPlat && quantite == commande.quantite;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRestaurant, idPlat, quantite);
+        return Objects.hash(idClient, idRestaurant, idPlat, quantite);
     }
 
     @Override
     public String toString() {
-        return "PlatCommande{" + "idRestaurant=" + this.idRestaurant + '\'' + ", idPlat='" + this.idPlat + '\'' +
-                ", quantite='" + this.quantite + '\'' + '}';
+        return "Commande{" +
+                "idClient=" + idClient +
+                ", idRestaurant=" + idRestaurant +
+                ", idPlat=" + idPlat +
+                ", quantite=" + quantite +
+                '}';
     }
-
-
-
 }

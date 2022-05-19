@@ -22,14 +22,4 @@ public class CommandeRepo implements CommandeRepository{
         return commande;
     }
 
-    public List<Commande> findById(long id){
-        List<Commande> listRestaurantCommande = new ArrayList<Commande>();
-        for(Commande commande: list){
-            if(id == commande.getIdRestaurant()){
-                listRestaurantCommande.add(commande);
-            }
-        }
-        return listRestaurantCommande;
-    }
-
 }

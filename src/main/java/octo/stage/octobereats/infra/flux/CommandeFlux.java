@@ -1,4 +1,4 @@
-package octo.stage.octobereats.infra;
+package octo.stage.octobereats.infra.flux;
 
 import octo.stage.octobereats.domain.Commande;
 import org.springframework.stereotype.Component;

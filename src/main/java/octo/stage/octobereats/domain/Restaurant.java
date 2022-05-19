@@ -61,7 +61,11 @@ public class Restaurant {
 
     @Override
     public String toString() {
-        return "Restaurant{" + "id=" + this.id + ", nom='" + this.nom + '\'' +
-                ", type='" + this.type + '\'' + ", Plats='" + this.plats + '\'' +'}';
+        return "Restaurant{" +
+                "id=" + id +
+                ", nom='" + nom + '\'' +
+                ", type='" + type + '\'' +
+                ", plats=" + plats +
+                '}';
     }
 }
