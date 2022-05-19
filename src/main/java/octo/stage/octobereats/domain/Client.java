@@ -8,7 +8,7 @@ public class Client {
     private String nom;
 
     public Client(String nom) {
-        this.id = count++;
+        this.id = ++count;
         this.nom = nom;
     }
 
