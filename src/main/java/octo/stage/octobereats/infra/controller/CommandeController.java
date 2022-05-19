@@ -33,6 +33,11 @@ public class CommandeController {
         return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdRestaurant() == id);
     }
 
+    @GetMapping(path="/clients/{id}/commandes", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Publisher<Commande> GetCommandeClient(@PathVariable long id) {
+        return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdClient() == id);
+    }
+
     @PostMapping("/commandes")
     public Commande newCommande(@RequestBody Commande commande) {
         System.out.println(commande);
