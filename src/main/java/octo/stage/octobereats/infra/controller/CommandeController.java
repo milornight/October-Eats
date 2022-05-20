@@ -1,6 +1,7 @@
 package octo.stage.octobereats.infra.controller;
 
 import octo.stage.octobereats.domain.Commande;
+import octo.stage.octobereats.domain.CommandeStatus;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import org.reactivestreams.Publisher;
@@ -36,6 +37,11 @@ public class CommandeController {
     @GetMapping(path="/clients/{id}/commandes", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<Commande> GetCommandeClient(@PathVariable long id) {
         return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdClient() == id);
+    }
+
+    @GetMapping("/commandes/{id}/status")
+    public CommandeStatus GetStatus(@PathVariable long id){
+        return commandeRepository.getCommandStatus(id);
     }
 
     @PostMapping("/commandes")
