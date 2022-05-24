@@ -2,7 +2,6 @@ package octo.stage.octobereats.domain;
 
 import java.util.Objects;
 
-
 public class Commande {
 
     private static long count = 0;
@@ -21,46 +20,19 @@ public class Commande {
         this.idPlat = idPlat;
         this.quantite = quantite;
         this.commandeStatus = CommandeStatus.ENVOYE;
+        this.commandeStatus.setIdCommande(idCommande);
     }
 
     public long getIdCommande() {
         return idCommande;
     }
 
-    public void setIdCommande(long idCommande) {
-        this.idCommande = idCommande;
-    }
-
     public long getIdClient() {
         return idClient;
     }
 
-    public void setIdClient(long idClient) {
-        this.idClient = idClient;
-    }
-
     public long getIdRestaurant(){
         return idRestaurant;
-    }
-
-    public void setIdRestaurant(long idRestaurant){
-        this.idRestaurant = idRestaurant;
-    }
-
-    public long getIdPlat() {
-        return idPlat;
-    }
-
-    public void setIdPlat(long idPlat) {
-        this.idPlat = idPlat;
-    }
-
-    public int getQuantite() {
-        return quantite;
-    }
-
-    public void setQuantite(int quantite) {
-        this.quantite = quantite;
     }
 
     public CommandeStatus getCommandeStatus() {

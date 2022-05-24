@@ -25,18 +25,8 @@ public class CommandeFlux {
         return commandesPublisher;
     }
 
-    public void setCommandesPublisher(ConnectableFlux<Commande> commandesPublisher) {
-        this.commandesPublisher = commandesPublisher;
-    }
-
     public FluxSink<Commande> getCommandesStream() {
         return commandesStream;
     }
-
-    public void setCommandesStream(FluxSink<Commande> commandesStream) {
-        this.commandesStream = commandesStream;
-    }
-
-
 
 }

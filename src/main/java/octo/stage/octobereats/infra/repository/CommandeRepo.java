@@ -4,8 +4,6 @@ import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.CommandeStatus;
 import org.springframework.stereotype.Repository;
 
-import reactor.core.publisher.Mono;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +21,11 @@ public class CommandeRepo implements CommandeRepository{
         return commande;
     }
 
-    public CommandeStatus getCommandStatus(long id){
-        for(Commande commande:list){
-            if(id == commande.getIdCommande()){
-                return commande.getCommandeStatus();
+    public CommandeStatus changeStatus(long id,CommandeStatus status){
+        for(Commande commande:list) {
+            if (id == commande.getIdCommande()) {
+                commande.setCommandeStatus(status);
+                return status;
             }
         }
         return null;

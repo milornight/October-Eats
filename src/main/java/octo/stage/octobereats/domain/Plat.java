@@ -19,22 +19,6 @@ public class Plat {
         return this.id;
     }
 
-    public String getNom() {
-        return this.nom;
-    }
-
-    public float getPrix() {
-        return this.prix;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public void setPrix(float prix) {
-        this.prix = prix;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

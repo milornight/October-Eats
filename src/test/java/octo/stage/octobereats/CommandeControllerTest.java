@@ -8,6 +8,7 @@ import java.util.List;
 import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.CommandeStatus;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
+import octo.stage.octobereats.infra.flux.StatusFlux;
 import octo.stage.octobereats.infra.controller.CommandeController;
 import octo.stage.octobereats.infra.repository.CommandeRepo;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
@@ -22,10 +23,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.ConnectableFlux;
+import reactor.core.publisher.Flux;
 
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = CommandeController.class)
-@Import({CommandeRepo.class,CommandeFlux.class})
+@Import({CommandeRepo.class,CommandeFlux.class,StatusFlux.class})
 public class CommandeControllerTest {
 
     @Autowired
@@ -63,7 +65,7 @@ public class CommandeControllerTest {
         Mockito.verify(commandeRepo, times(1)).getCommandes();
     }
 
-   /* @Test
+    @Test
     public void testAddCommande() {
         Commande commande = new Commande(1,1,2,3);
 
@@ -80,11 +82,11 @@ public class CommandeControllerTest {
                 .jsonPath("$.idRestaurant").isEqualTo(1)
                 .jsonPath("$.idPlat").isEqualTo(2)
                 .jsonPath("$.quantite").isEqualTo(3)
-                .jsonPath("$.commandeStatus").isEqualTo("ENVOYE");
+                .jsonPath("$.commandeStatus").isEqualTo(0);
 
 
         Mockito.verify(commandeRepo, times(1)).addCommande(commande);
-    }*/
+    }
 
     /*@Test
     public void testGetCommandesRestaurant() {
@@ -106,4 +108,28 @@ public class CommandeControllerTest {
         Mockito.verify(commandeFlux, times(1)).getCommandesPublisher();
        }
      */
+
+   /* @Test
+    public void testGetCommandesRestaurant() {
+        SomeFeed<PriceTick> feed = new SomeFeed<>();
+        Flux<Commande> commandeFlux = Flux.create(emitter ->
+        {
+            SomeListener l = new SomeListener() {
+                @Override
+                public void priceTick(PriceTick event) {
+                    emitter.next(event);
+                }
+
+                @Override
+                public void error(Throwable throwable) {
+                    emitter.error(throwable);
+                }
+
+            };
+            feed.register(l);
+        }, FluxSink.OverflowStrategy.LATEST);
+        ConnectableFlux<Object> connectableFlux = priceFlux.publish();
+        connectableFlux.connect();
+        connectableFlux.subscribe(System.out::println);
+    }*/
 }
