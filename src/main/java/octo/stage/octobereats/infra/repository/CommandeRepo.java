@@ -21,6 +21,15 @@ public class CommandeRepo implements CommandeRepository{
         return commande;
     }
 
+    public CommandeStatus getCommandStatus(long id){
+        for(Commande commande:list){
+            if(id == commande.getIdCommande()){
+                return commande.getCommandeStatus();
+            }
+        }
+        return null;
+    }
+
     public CommandeStatus changeStatus(long id,CommandeStatus status){
         for(Commande commande:list) {
             if (id == commande.getIdCommande()) {

@@ -1,5 +1,6 @@
 package octo.stage.octobereats.domain;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class Commande {
@@ -11,6 +12,7 @@ public class Commande {
     private long idPlat;
     private int quantite;
     private CommandeStatus commandeStatus;
+    //private Map<CommandeStatus, Long> status;
 
 
     public Commande(long idClient, long idRestaurant, long idPlat, int quantite) {
@@ -20,7 +22,8 @@ public class Commande {
         this.idPlat = idPlat;
         this.quantite = quantite;
         this.commandeStatus = CommandeStatus.ENVOYE;
-        this.commandeStatus.setIdCommande(idCommande);
+        commandeStatus.setIdCommande(idCommande);
+        //status.put(commandeStatus,idCommande);
     }
 
     public long getIdCommande() {
@@ -36,12 +39,23 @@ public class Commande {
     }
 
     public CommandeStatus getCommandeStatus() {
+        //status.get(CommandeStatus);
         return commandeStatus;
     }
 
     public void setCommandeStatus(CommandeStatus commandeStatus) {
+
+        this.commandeStatus.setIdCommande(this.getIdCommande());
         this.commandeStatus = commandeStatus;
     }
+
+    /*public Map<CommandeStatus, Long> getStatus() {
+        return status;
+    }
+
+    public void setStatus(Map<CommandeStatus, Long> status) {
+        this.status = status;
+    }*/
 
     @Override
     public boolean equals(Object o) {

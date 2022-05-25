@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.stream.Collector;
@@ -45,33 +46,37 @@ public class CommandeController {
         return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdClient() == id);
     }
 
-    /*@GetMapping("/commandes/{id}/status")
+    @GetMapping("/commandes/{id}/status")
     public CommandeStatus GetStatus(@PathVariable long id){
         return commandeRepository.getCommandStatus(id);
-    }*/
+    }
 
-   /* @GetMapping("/commandes/{id}/status")
-    public CommandeStatus GetStatus(@PathVariable long id) {
-        //Publisher<Commande> commandePub = (commandeFlux.getCommandesPublisher().filter((commande)-> (commande.getIdClient() == id)));
+   /*@GetMapping("/commandes/{id}/status")
+    public Publisher<Commande> GetStatus(@PathVariable long id) {
+        Publisher<Commande> commandePub = (commandeFlux.getCommandesPublisher().filter((commande)-> (commande.getIdClient() == id)));
+        System.out.println("AAAAAAAAAAAA " + commandePub);
+        return commandePub;
         //statusFlux.getStatusPublisher().filter(status -> status.getIdCommande()==id);
-        Flux<Commande> commandePub = commandeFlux.getCommandesPublisher().filter((commande) -> commande.getIdCommande() == id);
-        List<Commande> commandeList = commandePub.collectList().block();
-        for (Commande commade : commandeList) {
-            if (commade.getIdCommande() == id) {
-                return commade.getCommandeStatus();
+        //Flux<Commande> commandePub = commandeFlux.getCommandesPublisher();
+        //System.out.println("AAAAAAAAAAAA " + commandePub);
+        //Mono<List<Commande>> commandeList = commandeFlux.getCommandesPublisher().collectList();
+        //System.out.println("BBBBBBBBBBB "+ commandeList);
+        /*for (Commande commande : commandeList) {
+            if (commande.getIdCommande() == id) {
+                return commande.getCommandeStatus();
             }
         }
-        return null;
+        //return null;
     }*/
 
-    @GetMapping("/commandes/{id}/status")
+    /*@GetMapping("/commandes/{id}/status")
     public Publisher<CommandeStatus> GetStatus(@PathVariable long id) {
         return statusFlux.getStatusPublisher().filter((status) -> status.getIdCommande()==id);
-    }
+    }*/
 
     @PostMapping("/commandes")
     public Commande newCommande(@RequestBody Commande commande) {
-        System.out.println(commande);
+        //System.out.println(commande);
         commandeFlux.getCommandesStream().next(commande);
         statusFlux.getStatusStream().next(commande.getCommandeStatus());
         return commandeRepository.addCommande(commande);
@@ -79,8 +84,11 @@ public class CommandeController {
 
     @PutMapping("/commandes/{id}/status")
     public CommandeStatus newStatus(@RequestBody CommandeStatus status, @PathVariable long id){
+        //System.out.println(status);
         statusFlux.getStatusStream().next(status);
-        return commandeRepository.changeStatus(id,status);
+        CommandeStatus commandeStatus= commandeRepository.changeStatus(id,status);
+        //System.out.println(status);
+        return commandeStatus;
     }
 
 }

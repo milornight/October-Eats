@@ -17,4 +17,11 @@ public enum CommandeStatus {
     public void setIdCommande(long idCommande) {
         this.idCommande = idCommande;
     }
+
+    @Override
+    public String toString() {
+        return "CommandeStatus{" +
+                "idCommande=" + idCommande +
+                '}';
+    }
 }
