@@ -38,6 +38,14 @@ public class Commande {
         return idRestaurant;
     }
 
+    public long getIdPlat() {
+        return idPlat;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
     public CommandeStatus getCommandeStatus() {
         //status.get(CommandeStatus);
         return commandeStatus;

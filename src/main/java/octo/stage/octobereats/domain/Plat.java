@@ -19,6 +19,14 @@ public class Plat {
         return this.id;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public float getPrix() {
+        return prix;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

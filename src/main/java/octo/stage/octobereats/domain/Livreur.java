@@ -15,6 +15,10 @@ public class Livreur {
         this.prenom = prenom;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getNom() {
         return nom;
     }

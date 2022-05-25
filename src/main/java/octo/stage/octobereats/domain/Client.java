@@ -20,6 +20,10 @@ public class Client {
         this.id = id;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -26,6 +26,14 @@ public class Restaurant {
         this.id = id;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     public List<Plat> getPlats() {
         return plats;
     }
