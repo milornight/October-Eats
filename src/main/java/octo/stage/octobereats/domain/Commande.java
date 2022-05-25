@@ -12,6 +12,7 @@ public class Commande {
     private long idPlat;
     private int quantite;
     private CommandeStatus commandeStatus;
+    private long idLivreur;
     //private Map<CommandeStatus, Long> status;
 
 
@@ -23,6 +24,7 @@ public class Commande {
         this.quantite = quantite;
         this.commandeStatus = CommandeStatus.ENVOYE;
         commandeStatus.setIdCommande(idCommande);
+        this.idLivreur = 0;
         //status.put(commandeStatus,idCommande);
     }
 
@@ -51,10 +53,18 @@ public class Commande {
         return commandeStatus;
     }
 
+    public long getIdLivreur() {
+        return idLivreur;
+    }
+
     public void setCommandeStatus(CommandeStatus commandeStatus) {
 
         this.commandeStatus.setIdCommande(this.getIdCommande());
         this.commandeStatus = commandeStatus;
+    }
+
+    public void setIdLivreur(long idLivreur) {
+        this.idLivreur = idLivreur;
     }
 
     /*public Map<CommandeStatus, Long> getStatus() {
