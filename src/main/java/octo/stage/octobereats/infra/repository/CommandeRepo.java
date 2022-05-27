@@ -2,6 +2,7 @@ package octo.stage.octobereats.infra.repository;
 
 import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.CommandeStatus;
+import octo.stage.octobereats.domain.Livreur;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -38,6 +39,25 @@ public class CommandeRepo implements CommandeRepository{
             }
         }
         return null;
+    }
+
+    public Livreur prendCommande(long id, Livreur livreur){
+        for(Commande commande:list) {
+            if (id == commande.getIdCommande()) {
+                commande.setIdLivreur(livreur.getId());
+                return livreur;
+            }
+        }
+        return null;
+    }
+
+    public long getlivreur(long id){
+        for(Commande commande:list) {
+            if (id == commande.getIdCommande()) {
+                return commande.getIdLivreur();
+            }
+        }
+        return 0;
     }
 
 }

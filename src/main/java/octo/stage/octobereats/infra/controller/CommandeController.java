@@ -2,6 +2,7 @@ package octo.stage.octobereats.infra.controller;
 
 import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.CommandeStatus;
+import octo.stage.octobereats.domain.Livreur;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.flux.StatusFlux;
@@ -51,7 +52,24 @@ public class CommandeController {
         return commandeRepository.getCommandStatus(id);
     }
 
-   /*@GetMapping("/commandes/{id}/status")
+    @PostMapping("/commandes")
+    public Commande newCommande(@RequestBody Commande commande) {
+        //System.out.println(commande);
+        commandeFlux.getCommandesStream().next(commande);
+        statusFlux.getStatusStream().next(commande.getCommandeStatus());
+        return commandeRepository.addCommande(commande);
+    }
+
+    @PutMapping("/commandes/{id}/status")
+    public CommandeStatus newStatus(@RequestBody CommandeStatus status, @PathVariable long id){
+        //System.out.println(status);
+        statusFlux.getStatusStream().next(status);
+        CommandeStatus commandeStatus= commandeRepository.changeStatus(id,status);
+        //System.out.println(status);
+        return commandeStatus;
+    }
+
+    /*@GetMapping("/commandes/{id}/status")
     public Publisher<Commande> GetStatus(@PathVariable long id) {
         Publisher<Commande> commandePub = (commandeFlux.getCommandesPublisher().filter((commande)-> (commande.getIdClient() == id)));
         System.out.println("AAAAAAAAAAAA " + commandePub);
@@ -74,29 +92,22 @@ public class CommandeController {
         return statusFlux.getStatusPublisher().filter((status) -> status.getIdCommande()==id);
     }*/
 
-    @GetMapping("/commandesPasChoisir")
+    @GetMapping("/livreurs/commandesPasChoisir")
     public Publisher<Commande> getCommandes_A_Choisir(){
         return commandeFlux.getCommandesPublisher().filter(commande ->
                 commande.getCommandeStatus() == CommandeStatus.RECUE ||
-                commande.getCommandeStatus() == CommandeStatus.EN_PREPARATION &&
-                commande.getIdLivreur() == 0);
+                        commande.getCommandeStatus() == CommandeStatus.EN_PREPARATION &&
+                                commande.getIdLivreur() == 0);
     }
 
-    @PostMapping("/commandes")
-    public Commande newCommande(@RequestBody Commande commande) {
-        //System.out.println(commande);
-        commandeFlux.getCommandesStream().next(commande);
-        statusFlux.getStatusStream().next(commande.getCommandeStatus());
-        return commandeRepository.addCommande(commande);
+    @GetMapping("/commandes/{id}/livreur")
+    public long getCommandeLivreur(@PathVariable long id){
+        return commandeRepository.getlivreur(id);
     }
 
-    @PutMapping("/commandes/{id}/status")
-    public CommandeStatus newStatus(@RequestBody CommandeStatus status, @PathVariable long id){
-        //System.out.println(status);
-        statusFlux.getStatusStream().next(status);
-        CommandeStatus commandeStatus= commandeRepository.changeStatus(id,status);
-        //System.out.println(status);
-        return commandeStatus;
+    @PutMapping("/commandes/{id}/livreur")
+    public Livreur choisirCommande(@RequestBody Livreur livreur, @PathVariable long id){
+        return commandeRepository.prendCommande(id, livreur);
     }
 
 }

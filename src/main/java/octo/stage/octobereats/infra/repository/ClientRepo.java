@@ -26,4 +26,9 @@ public class ClientRepo implements ClientRepository{
     public List<Client> getClients() {
         return list;
     }
+
+    public Client addClient(Client client){
+        list.add(client);
+        return client;
+    }
 }
