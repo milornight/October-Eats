@@ -40,7 +40,7 @@ public class CommandeControllerTest {
     CommandeFlux commandeFlux;
 
     @Test
-    public void testGetCommandes() {
+    public void testCommandes() {
         List<Commande> listCommande = List.of(new Commande(1,1,2,3),
                 new Commande(2,1,3,3));
 
@@ -66,7 +66,7 @@ public class CommandeControllerTest {
     }
 
    /* @Test
-    public void testAddCommande() {
+    public void testNewCommande() {
         Commande commande = new Commande(1,1,2,3);
 
         Mockito.when(commandeRepo.addCommande(commande)).thenReturn(commande);

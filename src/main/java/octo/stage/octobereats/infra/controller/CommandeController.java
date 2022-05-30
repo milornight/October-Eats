@@ -10,11 +10,8 @@ import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.stream.Collector;
 
 @RestController
 public class CommandeController {
@@ -32,57 +29,33 @@ public class CommandeController {
         this.commandeRepository = commandeRepository;
     }
 
+    // get la liste des commandes
     @GetMapping("/commandes")
     public List<Commande> commandes(){
         return commandeRepository.getCommandes();
     }
 
-    @GetMapping(path="/restaurants/{id}/commandes", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Publisher<Commande> getCommandeRestaurant(@PathVariable long id) {
-        return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdRestaurant() == id);
-    }
-
-    @GetMapping(path="/clients/{id}/commandes", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Publisher<Commande> getCommandeClient(@PathVariable long id) {
-        return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdClient() == id);
-    }
-
+    // post un nouveau commande dans la liste
     @PostMapping("/commandes")
     public Commande newCommande(@RequestBody Commande commande) {
-        //System.out.println(commande);
         commandeFlux.getCommandesStream().next(commande);
+        CommandeStatus status = commande.getCommandeStatus();
+        long id = commande.getIdCommande();
+        status.setIdCommande(id);
         statusFlux.getStatusStream().next(commande.getCommandeStatus());
         return commandeRepository.addCommande(commande);
     }
 
+    // put le nouveau status du commande qui a identifiant = id
     @PutMapping("/commandes/{id}/status")
     public CommandeStatus newStatus(@RequestBody CommandeStatus status, @PathVariable long id){
-        //System.out.println(status);
         status.setIdCommande(id);
         CommandeStatus commandeStatus = commandeRepository.changeStatus(id,status);
         statusFlux.getStatusStream().next(commandeStatus);
-        //System.out.println(status);
         return commandeStatus;
     }
 
-    /*@GetMapping("/commandes/{id}/status")
-    public Publisher<Commande> GetStatus(@PathVariable long id) {
-        Publisher<Commande> commandePub = (commandeFlux.getCommandesPublisher().filter((commande)-> (commande.getIdClient() == id)));
-        System.out.println("AAAAAAAAAAAA " + commandePub);
-        return commandePub;
-        //statusFlux.getStatusPublisher().filter(status -> status.getIdCommande()==id);
-        //Flux<Commande> commandePub = commandeFlux.getCommandesPublisher();
-        //System.out.println("AAAAAAAAAAAA " + commandePub);
-        //Mono<List<Commande>> commandeList = commandeFlux.getCommandesPublisher().collectList();
-        //System.out.println("BBBBBBBBBBB "+ commandeList);
-        /*for (Commande commande : commandeList) {
-            if (commande.getIdCommande() == id) {
-                return commande.getCommandeStatus();
-            }
-        }
-        //return null;
-    }*/
-
+    // get la status du commandes qui a identifiant = id
     @GetMapping(path="/commandes/{id}/status", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<CommandeStatus> GetStatus(@PathVariable long id) {
         return statusFlux.getStatusPublisher().filter((status) ->  {
@@ -91,20 +64,7 @@ public class CommandeController {
         });
     }
 
-    //    @GetMapping("/commandes/{id}/status")
-    //    public CommandeStatus getStatus(@PathVariable long id){
-    //        return commandeRepository.getCommandStatus(id);
-    //    }
-
-    @GetMapping(path="/livreurs/commandesPasEncoreChoisies", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Publisher<Commande> getCommandesPasEncoreChoisies(){
-        return commandeFlux.getCommandesPublisher().filter(commande ->
-                commande.getCommandeStatus() == CommandeStatus.RECUE ||
-                        commande.getCommandeStatus() == CommandeStatus.EN_PREPARATION &&
-                                commande.getIdLivreur() == 0);
-    }
-
-    @GetMapping("/commandes/{id}/livreur")
+    /*@GetMapping("/commandes/{id}/livreur")
     public long getCommandeLivreur(@PathVariable long id){
         return commandeRepository.getlivreur(id);
     }
@@ -112,6 +72,6 @@ public class CommandeController {
     @PutMapping("/commandes/{id}/livreur")
     public Livreur choisirCommande(@RequestBody Livreur livreur, @PathVariable long id){
         return commandeRepository.prendCommande(id, livreur);
-    }
+    }*/
 
 }

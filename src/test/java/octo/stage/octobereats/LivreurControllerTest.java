@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -30,7 +31,7 @@ public class LivreurControllerTest {
     LivreurRepository livreurRepo;
 
     @Test
-    public void testGetLivreurs(){
+    public void testLivreurs(){
         List<Livreur> listLivreur = List.of(new Livreur("Martin","Kiki"),new Livreur("Richard","Tom"));
 
         Mockito.when(livreurRepo.getLivreurs()).thenReturn(listLivreur);
@@ -48,5 +49,27 @@ public class LivreurControllerTest {
                 .jsonPath("$.[1].prenom").isEqualTo("Tom");
 
         Mockito.verify(livreurRepo, times(1)).getLivreurs();
+    }
+
+    @Test
+    public void testNewLivreur() {
+        Livreur livreur = new Livreur("Richard","Tony");
+
+        Mockito.when(livreurRepo.addLivreur(livreur)).thenReturn(livreur);
+
+        webClient.post()
+                .uri("/livreurs")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(livreur)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(1)
+                .jsonPath("$.nom").isEqualTo("Richard")
+                .jsonPath("$.prenom").isEqualTo("Tony");
+
+
+        Mockito.verify(livreurRepo, times(1)).addLivreur(livreur);
     }
 }

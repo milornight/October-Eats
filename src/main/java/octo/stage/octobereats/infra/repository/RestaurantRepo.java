@@ -49,10 +49,12 @@ public class RestaurantRepo implements RestaurantRepository {
         list.add(R4);
     }
 
+    // récupérer la liste de restaurant
     public List<Restaurant> getRestaurants() {
         return list;
     }
 
+    // trouver l'information d'un restaurant à partir de son identifiant = id
     public Restaurant findById(long id) {
         for (Restaurant restaurant : list) {
             if (id == restaurant.getId()) {
@@ -62,6 +64,7 @@ public class RestaurantRepo implements RestaurantRepository {
         return null;
     }
 
+    // récupérer la liste de plat du restaurant qui a un identifiant = id
     public List<Plat> getPlats(long id) {
         for (Restaurant restaurant : list) {
             if (id == restaurant.getId()) {

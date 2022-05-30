@@ -31,7 +31,7 @@ public class RestaurantControllerTest {
     RestaurantRepository restaurantRepo;
 
     @Test
-    public void testGetRestaurants() {
+    public void testRestaurants() {
         List<Plat> listPlat = List.of(new Plat("chesse",10));
         List<Restaurant> listRestaurant = List.of(new Restaurant("toto","francais",listPlat),
                 new Restaurant("kiki","asiatique",null));
@@ -58,7 +58,7 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void testFindById(){
+    public void testOne(){
         Restaurant restaurant = new Restaurant("kiki","asiatique",null);
 
         Mockito.when(restaurantRepo.findById(1)).thenReturn(restaurant);
@@ -77,7 +77,7 @@ public class RestaurantControllerTest {
     }
 
     @Test
-    public void testGetPlats(){
+    public void testPlats(){
         List<Plat> listPlat = List.of(new Plat("chesse",10));
 
         Mockito.when(restaurantRepo.getPlats(1)).thenReturn(listPlat);

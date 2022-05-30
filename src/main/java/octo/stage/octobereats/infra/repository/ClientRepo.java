@@ -11,10 +11,10 @@ public class ClientRepo implements ClientRepository{
 
     private List<Client> list = new ArrayList<Client>();
 
-    Client C1 = new Client("Lola");
-    Client C2 = new Client("Tom");
-    Client C3 = new Client("Ami");
-    Client C4 = new Client("Hela");
+    Client C1 = new Client("HUbert","Lola");
+    Client C2 = new Client("Meunier","Tom");
+    Client C3 = new Client("Martin","Ami");
+    Client C4 = new Client("Dubois","Hela");
 
     public ClientRepo() {
         list.add(C1);
@@ -23,10 +23,12 @@ public class ClientRepo implements ClientRepository{
         list.add(C4);
     }
 
+    // récupérer la liste des clients
     public List<Client> getClients() {
         return list;
     }
 
+    // ajouter une client dans la liste
     public Client addClient(Client client){
         list.add(client);
         return client;

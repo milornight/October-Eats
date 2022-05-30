@@ -1,6 +1,5 @@
 package octo.stage.octobereats.domain;
 
-import java.util.Map;
 import java.util.Objects;
 
 public class Commande {
@@ -13,7 +12,6 @@ public class Commande {
     private int quantite;
     private CommandeStatus commandeStatus;
     private long idLivreur;
-    //private Map<CommandeStatus, Long> status;
 
 
     public Commande(long idClient, long idRestaurant, long idPlat, int quantite) {
@@ -25,7 +23,6 @@ public class Commande {
         this.commandeStatus = CommandeStatus.ENVOYE;
         commandeStatus.setIdCommande(idCommande);
         this.idLivreur = 0;
-        //status.put(commandeStatus,idCommande);
     }
 
     public long getIdCommande() {
@@ -49,7 +46,6 @@ public class Commande {
     }
 
     public CommandeStatus getCommandeStatus() {
-        //status.get(CommandeStatus);
         return commandeStatus;
     }
 
@@ -67,25 +63,17 @@ public class Commande {
         this.idLivreur = idLivreur;
     }
 
-    /*public Map<CommandeStatus, Long> getStatus() {
-        return status;
-    }
-
-    public void setStatus(Map<CommandeStatus, Long> status) {
-        this.status = status;
-    }*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Commande commande = (Commande) o;
-        return idCommande == commande.idCommande && idClient == commande.idClient && idRestaurant == commande.idRestaurant && idPlat == commande.idPlat && quantite == commande.quantite && commandeStatus == commande.commandeStatus;
+        return idCommande == commande.idCommande && idClient == commande.idClient && idRestaurant == commande.idRestaurant && idPlat == commande.idPlat && quantite == commande.quantite && idLivreur == commande.idLivreur && commandeStatus == commande.commandeStatus;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCommande, idClient, idRestaurant, idPlat, quantite, commandeStatus);
+        return Objects.hash(idCommande, idClient, idRestaurant, idPlat, quantite, commandeStatus, idLivreur);
     }
 
     @Override
@@ -97,6 +85,7 @@ public class Commande {
                 ", idPlat=" + idPlat +
                 ", quantite=" + quantite +
                 ", commandeStatus=" + commandeStatus +
+                ", idLivreur=" + idLivreur +
                 '}';
     }
 }

@@ -13,26 +13,18 @@ public class CommandeRepo implements CommandeRepository{
 
     private List<Commande> list = new ArrayList<Commande>();
 
+    // récupérer la liste des commandes
     public List<Commande> getCommandes() {
         return list;
     }
 
+    // ajouter un nouveau commande dans la liste
     public Commande addCommande(Commande commande){
         list.add(commande);
-        System.out.println("Commande crée : " + commande);
-        System.out.println("Liste de commandes : " + list);
         return commande;
     }
 
-    public CommandeStatus getCommandStatus(long id){
-        for(Commande commande:list){
-            if(id == commande.getIdCommande()){
-                return commande.getCommandeStatus();
-            }
-        }
-        return null;
-    }
-
+    // changer la status du commande qui a identifiant = id
     public CommandeStatus changeStatus(long id,CommandeStatus status){
         for(Commande commande:list) {
             if (id == commande.getIdCommande()) {
@@ -43,6 +35,7 @@ public class CommandeRepo implements CommandeRepository{
         return null;
     }
 
+    /*
     public Livreur prendCommande(long id, Livreur livreur){
         for(Commande commande:list) {
             if (id == commande.getIdCommande()) {
@@ -60,6 +53,6 @@ public class CommandeRepo implements CommandeRepository{
             }
         }
         return 0;
-    }
+    }*/
 
 }
