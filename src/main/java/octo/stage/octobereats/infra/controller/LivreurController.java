@@ -37,6 +37,7 @@ public class LivreurController {
         return livreurRepository.addLivreur(livreur);
     }
 
+    /*-----------------------------*/
     // get la liste des commandes qui ne sont pas encore choisies par les livreurs en réactive
     @GetMapping(path="/livreurs/commandesPasEncoreChoisies", produces= MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<Commande> getCommandesPasEncoreChoisies(){

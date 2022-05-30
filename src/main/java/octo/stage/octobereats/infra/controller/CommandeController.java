@@ -57,12 +57,14 @@ public class CommandeController {
 
     // get la status du commandes qui a identifiant = id
     @GetMapping(path="/commandes/{id}/status", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Publisher<CommandeStatus> GetStatus(@PathVariable long id) {
+    public Publisher<CommandeStatus> getStatus(@PathVariable long id) {
         return statusFlux.getStatusPublisher().filter((status) ->  {
             System.out.println(id + " == " + status.getIdCommande() + " = " + (status.getIdCommande() == id));
             return status.getIdCommande() == id;
         });
     }
+
+    /*-------------------------------------------*/
 
     /*@GetMapping("/commandes/{id}/livreur")
     public long getCommandeLivreur(@PathVariable long id){

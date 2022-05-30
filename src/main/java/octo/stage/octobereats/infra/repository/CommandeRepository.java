@@ -10,6 +10,8 @@ public interface CommandeRepository {
     public List<Commande> getCommandes();
     public Commande addCommande(Commande commande);
     public CommandeStatus changeStatus(long id,CommandeStatus status);
+
+    /*-------------------------------------------*/
     //public Livreur prendCommande(long id, Livreur livreur);
     //public long getlivreur(long id);
 }

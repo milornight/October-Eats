@@ -49,14 +49,14 @@ public class Commande {
         return commandeStatus;
     }
 
-    public long getIdLivreur() {
-        return idLivreur;
-    }
-
     public void setCommandeStatus(CommandeStatus commandeStatus) {
 
         this.commandeStatus.setIdCommande(this.getIdCommande());
         this.commandeStatus = commandeStatus;
+    }
+
+    public long getIdLivreur() {
+        return idLivreur;
     }
 
     public void setIdLivreur(long idLivreur) {
