@@ -19,6 +19,8 @@ public class CommandeRepo implements CommandeRepository{
 
     public Commande addCommande(Commande commande){
         list.add(commande);
+        System.out.println("Commande crée : " + commande);
+        System.out.println("Liste de commandes : " + list);
         return commande;
     }
 

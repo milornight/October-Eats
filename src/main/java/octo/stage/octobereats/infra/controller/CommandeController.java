@@ -47,11 +47,6 @@ public class CommandeController {
         return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdClient() == id);
     }
 
-    @GetMapping("/commandes/{id}/status")
-    public CommandeStatus getStatus(@PathVariable long id){
-        return commandeRepository.getCommandStatus(id);
-    }
-
     @PostMapping("/commandes")
     public Commande newCommande(@RequestBody Commande commande) {
         //System.out.println(commande);
@@ -63,8 +58,9 @@ public class CommandeController {
     @PutMapping("/commandes/{id}/status")
     public CommandeStatus newStatus(@RequestBody CommandeStatus status, @PathVariable long id){
         //System.out.println(status);
-        statusFlux.getStatusStream().next(status);
-        CommandeStatus commandeStatus= commandeRepository.changeStatus(id,status);
+        status.setIdCommande(id);
+        CommandeStatus commandeStatus = commandeRepository.changeStatus(id,status);
+        statusFlux.getStatusStream().next(commandeStatus);
         //System.out.println(status);
         return commandeStatus;
     }
@@ -87,13 +83,21 @@ public class CommandeController {
         //return null;
     }*/
 
-    /*@GetMapping("/commandes/{id}/status")
+    @GetMapping(path="/commandes/{id}/status", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<CommandeStatus> GetStatus(@PathVariable long id) {
-        return statusFlux.getStatusPublisher().filter((status) -> status.getIdCommande()==id);
-    }*/
+        return statusFlux.getStatusPublisher().filter((status) ->  {
+            System.out.println(id + " == " + status.getIdCommande() + " = " + (status.getIdCommande() == id));
+            return status.getIdCommande() == id;
+        });
+    }
 
-    @GetMapping("/livreurs/commandesPasChoisir")
-    public Publisher<Commande> getCommandes_A_Choisir(){
+    //    @GetMapping("/commandes/{id}/status")
+    //    public CommandeStatus getStatus(@PathVariable long id){
+    //        return commandeRepository.getCommandStatus(id);
+    //    }
+
+    @GetMapping(path="/livreurs/commandesPasEncoreChoisies", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Publisher<Commande> getCommandesPasEncoreChoisies(){
         return commandeFlux.getCommandesPublisher().filter(commande ->
                 commande.getCommandeStatus() == CommandeStatus.RECUE ||
                         commande.getCommandeStatus() == CommandeStatus.EN_PREPARATION &&
