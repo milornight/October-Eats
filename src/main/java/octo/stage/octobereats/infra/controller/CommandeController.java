@@ -25,6 +25,9 @@ public class CommandeController {
     @Autowired
     StatusFlux statusFlux;
 
+    @Autowired
+    CommandeFlux fluxIntermediaire;
+
     public CommandeController(CommandeRepository commandeRepository) {
         this.commandeRepository = commandeRepository;
     }
@@ -52,16 +55,15 @@ public class CommandeController {
         status.setIdCommande(id);
         CommandeStatus commandeStatus = commandeRepository.changeStatus(id,status);
         statusFlux.getStatusStream().next(commandeStatus);
+        Commande commande = commandeRepository.findById(commandeStatus.getIdCommande());
+        commandeFlux.getCommandesStream().next(commande);
         return commandeStatus;
     }
 
     // get la status du commandes qui a identifiant = id
     @GetMapping(path="/commandes/{id}/status", produces=MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<CommandeStatus> getStatus(@PathVariable long id) {
-        return statusFlux.getStatusPublisher().filter((status) ->  {
-            System.out.println(id + " == " + status.getIdCommande() + " = " + (status.getIdCommande() == id));
-            return status.getIdCommande() == id;
-        });
+        return statusFlux.getStatusPublisher().filter((status) ->  status.getIdCommande() == id);
     }
 
     /*-------------------------------------------*/

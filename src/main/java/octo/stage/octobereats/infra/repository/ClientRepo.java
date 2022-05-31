@@ -11,7 +11,7 @@ public class ClientRepo implements ClientRepository{
 
     private List<Client> list = new ArrayList<Client>();
 
-    Client C1 = new Client("HUbert","Lola");
+    Client C1 = new Client("Hubert","Lola");
     Client C2 = new Client("Meunier","Tom");
     Client C3 = new Client("Martin","Ami");
     Client C4 = new Client("Dubois","Hela");

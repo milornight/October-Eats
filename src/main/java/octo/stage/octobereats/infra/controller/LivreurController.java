@@ -42,8 +42,8 @@ public class LivreurController {
     @GetMapping(path="/livreurs/commandesPasEncoreChoisies", produces= MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<Commande> getCommandesPasEncoreChoisies(){
         return commandeFlux.getCommandesPublisher().filter(commande ->
-                commande.getCommandeStatus() == CommandeStatus.RECUE ||
-                        commande.getCommandeStatus() == CommandeStatus.EN_PREPARATION &&
+                commande.getCommandeStatus() != CommandeStatus.EN_LIVRAISON &&
+                        commande.getCommandeStatus() != CommandeStatus.LIVREE &&
                                 commande.getIdLivreur() == 0);
     }
 

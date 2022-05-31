@@ -35,6 +35,15 @@ public class CommandeRepo implements CommandeRepository{
         return null;
     }
 
+    public Commande findById(long id){
+        for(Commande commande:list) {
+            if (id == commande.getIdCommande()) {
+                return commande;
+            }
+        }
+        return null;
+    }
+
     /*-------------------------------------------*/
 
 
