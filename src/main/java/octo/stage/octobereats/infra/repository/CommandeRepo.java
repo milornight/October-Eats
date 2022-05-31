@@ -37,7 +37,7 @@ public class CommandeRepo implements CommandeRepository{
 
     /*-------------------------------------------*/
 
-    /*
+
     public Livreur prendCommande(long id, Livreur livreur){
         for(Commande commande:list) {
             if (id == commande.getIdCommande()) {
@@ -55,6 +55,6 @@ public class CommandeRepo implements CommandeRepository{
             }
         }
         return 0;
-    }*/
+    }
 
 }

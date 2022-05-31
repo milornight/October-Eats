@@ -12,6 +12,6 @@ public interface CommandeRepository {
     public CommandeStatus changeStatus(long id,CommandeStatus status);
 
     /*-------------------------------------------*/
-    //public Livreur prendCommande(long id, Livreur livreur);
-    //public long getlivreur(long id);
+    public Livreur prendCommande(long id, Livreur livreur);
+    public long getlivreur(long id);
 }

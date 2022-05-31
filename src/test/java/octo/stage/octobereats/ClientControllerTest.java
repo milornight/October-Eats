@@ -2,6 +2,7 @@ package octo.stage.octobereats;
 
 import octo.stage.octobereats.domain.Client;
 import octo.stage.octobereats.infra.controller.ClientController;
+import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.repository.ClientRepo;
 import octo.stage.octobereats.infra.repository.ClientRepository;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.times;
 
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = ClientController.class)
-@Import(ClientRepo.class)
+@Import({ClientRepo.class, CommandeFlux.class})
 public class ClientControllerTest {
 
     @Autowired

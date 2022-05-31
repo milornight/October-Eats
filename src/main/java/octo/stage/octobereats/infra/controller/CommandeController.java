@@ -66,7 +66,7 @@ public class CommandeController {
 
     /*-------------------------------------------*/
 
-    /*@GetMapping("/commandes/{id}/livreur")
+    @GetMapping("/commandes/{id}/livreur")
     public long getCommandeLivreur(@PathVariable long id){
         return commandeRepository.getlivreur(id);
     }
@@ -74,6 +74,6 @@ public class CommandeController {
     @PutMapping("/commandes/{id}/livreur")
     public Livreur choisirCommande(@RequestBody Livreur livreur, @PathVariable long id){
         return commandeRepository.prendCommande(id, livreur);
-    }*/
+    }
 
 }
