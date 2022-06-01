@@ -6,6 +6,7 @@ import octo.stage.octobereats.domain.Livreur;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.flux.StatusFlux;
+import octo.stage.octobereats.infra.repository.LivreurRepository;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,10 +27,11 @@ public class CommandeController {
     StatusFlux statusFlux;
 
     @Autowired
-    CommandeFlux fluxIntermediaire;
+    LivreurRepository livreurRepository;
 
-    public CommandeController(CommandeRepository commandeRepository) {
+    public CommandeController(CommandeRepository commandeRepository,LivreurRepository livreurRepository) {
         this.commandeRepository = commandeRepository;
+        this.livreurRepository = livreurRepository;
     }
 
     // get la liste des commandes
@@ -66,16 +68,36 @@ public class CommandeController {
         return statusFlux.getStatusPublisher().filter((status) ->  status.getIdCommande() == id);
     }
 
-    /*-------------------------------------------*/
-
-    @GetMapping("/commandes/{id}/livreur")
-    public long getCommandeLivreur(@PathVariable long id){
-        return commandeRepository.getlivreur(id);
-    }
-
+    // put le livreur pour prend charge du commande identifiant=id
     @PutMapping("/commandes/{id}/livreur")
-    public Livreur choisirCommande(@RequestBody Livreur livreur, @PathVariable long id){
-        return commandeRepository.prendCommande(id, livreur);
+    public Livreur choisirCommande(@RequestBody long idLivreur, @PathVariable long id){
+        Commande commande = commandeRepository.findById(id);
+        List<Livreur> list = livreurRepository.getLivreurs();
+        for(Livreur livreur:list){
+            if(idLivreur == livreur.getId()){
+                if(commande.getCommandeStatus()==CommandeStatus.PRETE){
+                    commande.setIdLivreur(idLivreur);
+                    commandeFlux.getCommandesStream().next(commandeRepository.findById(id));
+                    return livreur;
+                }
+            }
+        }
+        return null;
     }
+
+    // get les informations du livreur qui prend charge le commande identifiant=id
+    @GetMapping("/commandes/{id}/livreur")
+    public Livreur getCommandeLivreur(@PathVariable long id){
+        long idLivreur = commandeRepository.getIdLivreur(id);
+        List<Livreur> list = livreurRepository.getLivreurs();
+        for(Livreur livreur:list){
+            if(idLivreur == livreur.getId()){
+                return livreur;
+            }
+        }
+        return null;
+    }
+
+
 
 }

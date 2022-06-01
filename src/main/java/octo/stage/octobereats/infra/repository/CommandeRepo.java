@@ -2,7 +2,6 @@ package octo.stage.octobereats.infra.repository;
 
 import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.CommandeStatus;
-import octo.stage.octobereats.domain.Livreur;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -25,16 +24,23 @@ public class CommandeRepo implements CommandeRepository{
     }
 
     // changer la status du commande qui a identifiant = id
-    public CommandeStatus changeStatus(long id,CommandeStatus status){
+    public CommandeStatus changeStatus(long id,CommandeStatus statusApres){
         for(Commande commande:list) {
             if (id == commande.getIdCommande()) {
-                commande.setCommandeStatus(status);
-                return status;
+                CommandeStatus statusAvant = commande.getCommandeStatus();
+                if(statusApres.ordinal()-statusAvant.ordinal()==1){
+                    if((statusAvant==CommandeStatus.PRETE && commande.getIdLivreur()!=0) || statusAvant!=CommandeStatus.PRETE){
+                        commande.setCommandeStatus(statusApres);
+                        return statusApres;
+                    }
+                }
             }
         }
+        System.out.println("Le changement du status de commande n'a pas respecté la règle");
         return null;
     }
 
+    // trouver une commande dans la liste à partir son identifiant
     public Commande findById(long id){
         for(Commande commande:list) {
             if (id == commande.getIdCommande()) {
@@ -44,20 +50,8 @@ public class CommandeRepo implements CommandeRepository{
         return null;
     }
 
-    /*-------------------------------------------*/
-
-
-    public Livreur prendCommande(long id, Livreur livreur){
-        for(Commande commande:list) {
-            if (id == commande.getIdCommande()) {
-                commande.setIdLivreur(livreur.getId());
-                return livreur;
-            }
-        }
-        return null;
-    }
-
-    public long getlivreur(long id){
+    // récupérer identifiant du livreur pour commande(identifiant = id)
+    public long getIdLivreur(long id){
         for(Commande commande:list) {
             if (id == commande.getIdCommande()) {
                 return commande.getIdLivreur();

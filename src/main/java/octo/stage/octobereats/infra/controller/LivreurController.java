@@ -37,7 +37,6 @@ public class LivreurController {
         return livreurRepository.addLivreur(livreur);
     }
 
-    /*-----------------------------*/
     // get la liste des commandes qui ne sont pas encore choisies par les livreurs en réactive
     @GetMapping(path="/livreurs/commandesPasEncoreChoisies", produces= MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<Commande> getCommandesPasEncoreChoisies(){
@@ -45,6 +44,12 @@ public class LivreurController {
                 commande.getCommandeStatus() != CommandeStatus.EN_LIVRAISON &&
                         commande.getCommandeStatus() != CommandeStatus.LIVREE &&
                                 commande.getIdLivreur() == 0);
+    }
+
+    // get les commandes choisies pour le livreur identifiant=id
+    @GetMapping(path="/livreurs/{id}/commandes",produces=MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Publisher<Commande> getCommandeLivreur(@PathVariable long id){
+        return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdLivreur() == id);
     }
 
 }

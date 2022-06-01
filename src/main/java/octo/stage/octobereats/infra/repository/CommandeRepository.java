@@ -13,6 +13,5 @@ public interface CommandeRepository {
     public Commande findById(long id);
 
     /*-------------------------------------------*/
-    public Livreur prendCommande(long id, Livreur livreur);
-    public long getlivreur(long id);
+    public long getIdLivreur(long id);
 }
