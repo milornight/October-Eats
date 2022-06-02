@@ -11,7 +11,6 @@ public interface CommandeRepository {
     public Commande addCommande(Commande commande);
     public CommandeStatus changeStatus(long id,CommandeStatus status);
     public Commande findById(long id);
-
-    /*-------------------------------------------*/
     public long getIdLivreur(long id);
+    public boolean checkCommandesSontLivres(List<Commande> commandeList);
 }

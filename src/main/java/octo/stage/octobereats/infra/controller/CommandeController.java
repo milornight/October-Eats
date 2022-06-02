@@ -11,8 +11,13 @@ import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import octo.stage.octobereats.usecases.livreurChoisitCommande;
 
 import java.util.List;
+
+// un controller sert à recevoir des arguments, les donner à un usecase (domain)
+// et retourne le résultat du usecase en tant que réponse
+// un controller n'a pas le droit d'appeler un repository
 
 @RestController
 public class CommandeController {
@@ -28,6 +33,8 @@ public class CommandeController {
 
     @Autowired
     LivreurRepository livreurRepository;
+
+    livreurChoisitCommande livreurChoisitCommande;
 
     public CommandeController(CommandeRepository commandeRepository,LivreurRepository livreurRepository) {
         this.commandeRepository = commandeRepository;
@@ -73,17 +80,24 @@ public class CommandeController {
     public Livreur choisirCommande(@RequestBody long idLivreur, @PathVariable long id){
         Commande commande = commandeRepository.findById(id);
         List<Livreur> list = livreurRepository.getLivreurs();
+        List<Commande> commandeList;
         for(Livreur livreur:list){
             if(idLivreur == livreur.getId()){
-                if(commande.getCommandeStatus()==CommandeStatus.PRETE){
+                commandeList = livreur.getCommandeList();
+                if(commandeRepository.checkCommandesSontLivres(commandeList) && commande.getCommandeStatus()==CommandeStatus.PRETE){
                     commande.setIdLivreur(idLivreur);
+                    livreurRepository.addCommandeDansList(commande,livreur);
                     commandeFlux.getCommandesStream().next(commandeRepository.findById(id));
                     return livreur;
                 }
             }
         }
         return null;
+
+        //return livreurChoisitCommande.exécuter(idLivreur,id);
     }
+
+
 
     // get les informations du livreur qui prend charge le commande identifiant=id
     @GetMapping("/commandes/{id}/livreur")

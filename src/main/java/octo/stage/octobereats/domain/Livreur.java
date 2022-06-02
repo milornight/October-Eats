@@ -1,5 +1,7 @@
 package octo.stage.octobereats.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Livreur {
@@ -8,11 +10,13 @@ public class Livreur {
     private long id;
     private String nom;
     private String prenom;
+    private List<Commande> commandeList;
 
     public Livreur(String nom, String prenom) {
         this.id = ++count;
         this.nom = nom;
         this.prenom = prenom;
+        this.commandeList = new ArrayList<>();
     }
 
     public long getId() {
@@ -25,6 +29,10 @@ public class Livreur {
 
     public String getPrenom() {
         return prenom;
+    }
+
+    public List<Commande> getCommandeList() {
+        return commandeList;
     }
 
     @Override
