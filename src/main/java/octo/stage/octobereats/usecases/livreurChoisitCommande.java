@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 // le usecase ne doit pas faire de if ni de for. Il ne doit contenir aucune règle
 // un usecase par controller et un controller par usecase.
 // un usecase ne comporte qu'une seule méthode publique, qui s'appelle exécuter
+
 @Component
 public class livreurChoisitCommande {
     CommandeRepository commandeRepository;

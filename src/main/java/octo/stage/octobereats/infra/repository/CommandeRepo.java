@@ -61,11 +61,9 @@ public class CommandeRepo implements CommandeRepository{
     }
 
     public boolean checkCommandesSontLivres(List<Commande> commandeList){
-        if (commandeList != null) {
-            for(Commande commande:commandeList) {
-                if (commande.getCommandeStatus() != CommandeStatus.LIVREE) {
-                    return false;
-                }
+        for(Commande commande:commandeList) {
+            if (commande.getCommandeStatus() != CommandeStatus.LIVREE) {
+                return false;
             }
         }
         return true;

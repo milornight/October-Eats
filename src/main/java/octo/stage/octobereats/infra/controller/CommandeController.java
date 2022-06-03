@@ -34,6 +34,7 @@ public class CommandeController {
     @Autowired
     LivreurRepository livreurRepository;
 
+    @Autowired
     livreurChoisitCommande livreurChoisitCommande;
 
     public CommandeController(CommandeRepository commandeRepository,LivreurRepository livreurRepository) {
@@ -78,38 +79,28 @@ public class CommandeController {
     // put le livreur pour prend charge du commande identifiant=id
     @PutMapping("/commandes/{id}/livreur")
     public Livreur choisirCommande(@RequestBody long idLivreur, @PathVariable long id){
-        Commande commande = commandeRepository.findById(id);
-        List<Livreur> list = livreurRepository.getLivreurs();
-        List<Commande> commandeList;
-        for(Livreur livreur:list){
-            if(idLivreur == livreur.getId()){
-                commandeList = livreur.getCommandeList();
-                if(commandeRepository.checkCommandesSontLivres(commandeList) && commande.getCommandeStatus()==CommandeStatus.PRETE){
-                    commande.setIdLivreur(idLivreur);
-                    livreurRepository.addCommandeDansList(commande,livreur);
-                    commandeFlux.getCommandesStream().next(commandeRepository.findById(id));
-                    return livreur;
-                }
-            }
+        /*Commande commande = commandeRepository.findById(id);
+        Livreur livreur = livreurRepository.findById(idLivreur);
+        List<Commande> commandeList = livreur.getCommandeList();
+
+        if(commandeRepository.checkCommandesSontLivres(commandeList) && commande.getCommandeStatus()==CommandeStatus.PRETE){
+            commande.setIdLivreur(idLivreur);
+            livreurRepository.addCommandeDansList(commande,livreur);
+            commandeFlux.getCommandesStream().next(commande);
+            return livreur;
         }
-        return null;
 
-        //return livreurChoisitCommande.exécuter(idLivreur,id);
+        return null;*/
+
+        return livreurChoisitCommande.exécuter(idLivreur,id);
     }
-
 
 
     // get les informations du livreur qui prend charge le commande identifiant=id
     @GetMapping("/commandes/{id}/livreur")
     public Livreur getCommandeLivreur(@PathVariable long id){
         long idLivreur = commandeRepository.getIdLivreur(id);
-        List<Livreur> list = livreurRepository.getLivreurs();
-        for(Livreur livreur:list){
-            if(idLivreur == livreur.getId()){
-                return livreur;
-            }
-        }
-        return null;
+        return livreurRepository.findById(idLivreur);
     }
 
 }
