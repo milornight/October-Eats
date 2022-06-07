@@ -12,16 +12,16 @@ import org.springframework.stereotype.Component;
 // puis retourne le résultat
 // on peut conclure que le usecase est un "passe-plat"
 // le usecase ne doit pas faire de if ni de for. Il ne doit contenir aucune règle
-// un usecase par controller et un controller par usecase.
+// un usecase par endpoint et un endpoint par usecase.
 // un usecase ne comporte qu'une seule méthode publique, qui s'appelle exécuter
 
 @Component
-public class livreurChoisitCommande {
+public class LivreurChoisitCommande {
     CommandeRepository commandeRepository;
     LivreurRepository livreurRepository;
     CommandeFlux commandeFlux;
 
-    public livreurChoisitCommande(CommandeRepository commandeRepository, LivreurRepository livreurRepository, CommandeFlux commandeFlux) {
+    public LivreurChoisitCommande(CommandeRepository commandeRepository, LivreurRepository livreurRepository, CommandeFlux commandeFlux) {
         this.commandeRepository = commandeRepository;
         this.livreurRepository = livreurRepository;
         this.commandeFlux = commandeFlux;

@@ -7,11 +7,13 @@ import octo.stage.octobereats.infra.repository.CommandeRepository;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.flux.StatusFlux;
 import octo.stage.octobereats.infra.repository.LivreurRepository;
+import octo.stage.octobereats.usecases.ChangeCommandeStatus;
+import octo.stage.octobereats.usecases.ClientEnvoyerCommande;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import octo.stage.octobereats.usecases.livreurChoisitCommande;
+import octo.stage.octobereats.usecases.LivreurChoisitCommande;
 
 import java.util.List;
 
@@ -35,7 +37,13 @@ public class CommandeController {
     LivreurRepository livreurRepository;
 
     @Autowired
-    livreurChoisitCommande livreurChoisitCommande;
+    LivreurChoisitCommande livreurChoisitCommande;
+
+    @Autowired
+    ChangeCommandeStatus changeCommandeStatus;
+
+    @Autowired
+    ClientEnvoyerCommande clientEnvoyerCommande;
 
     public CommandeController(CommandeRepository commandeRepository,LivreurRepository livreurRepository) {
         this.commandeRepository = commandeRepository;
@@ -51,23 +59,27 @@ public class CommandeController {
     // post un nouveau commande dans la liste
     @PostMapping("/commandes")
     public Commande newCommande(@RequestBody Commande commande) {
-        commandeFlux.getCommandesStream().next(commande);
+        /*commandeFlux.getCommandesStream().next(commande);
         CommandeStatus status = commande.getCommandeStatus();
         long id = commande.getIdCommande();
         status.setIdCommande(id);
         statusFlux.getStatusStream().next(commande.getCommandeStatus());
-        return commandeRepository.addCommande(commande);
+        return commandeRepository.addCommande(commande);*/
+
+        return clientEnvoyerCommande.exécuter(commande);
     }
 
     // put le nouveau status du commande qui a identifiant = id
     @PutMapping("/commandes/{id}/status")
     public CommandeStatus newStatus(@RequestBody CommandeStatus status, @PathVariable long id){
-        status.setIdCommande(id);
+        /*status.setIdCommande(id);
         CommandeStatus commandeStatus = commandeRepository.changeStatus(id,status);
         statusFlux.getStatusStream().next(commandeStatus);
         Commande commande = commandeRepository.findById(commandeStatus.getIdCommande());
         commandeFlux.getCommandesStream().next(commande);
-        return commandeStatus;
+        return commandeStatus;*/
+
+        return changeCommandeStatus.exécuter(status,id);
     }
 
     // get la status du commandes qui a identifiant = id
