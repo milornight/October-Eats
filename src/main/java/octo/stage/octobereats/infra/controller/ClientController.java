@@ -2,7 +2,6 @@ package octo.stage.octobereats.infra.controller;
 
 import octo.stage.octobereats.domain.Client;
 import octo.stage.octobereats.domain.Commande;
-import octo.stage.octobereats.infra.repository.ClientRepository;
 import octo.stage.octobereats.usecases.client.CreerUnClient;
 import octo.stage.octobereats.usecases.client.RecupererLesClients;
 import octo.stage.octobereats.usecases.client.SuivreLesCommandesDuClient;
@@ -15,8 +14,6 @@ import java.util.List;
 @RestController
 public class ClientController {
 
-    ClientRepository clientRepository;
-
     final
     RecupererLesClients recupererLesClients;
 
@@ -26,8 +23,7 @@ public class ClientController {
     final
     SuivreLesCommandesDuClient suivreLesCommandesDuClient;
 
-    public ClientController(ClientRepository clientRepository, RecupererLesClients recupererLesClients, CreerUnClient creerUnClient, SuivreLesCommandesDuClient suivreLesCommandesDuClient) {
-        this.clientRepository = clientRepository;
+    public ClientController(RecupererLesClients recupererLesClients, CreerUnClient creerUnClient, SuivreLesCommandesDuClient suivreLesCommandesDuClient) {
         this.recupererLesClients = recupererLesClients;
         this.creerUnClient = creerUnClient;
         this.suivreLesCommandesDuClient = suivreLesCommandesDuClient;

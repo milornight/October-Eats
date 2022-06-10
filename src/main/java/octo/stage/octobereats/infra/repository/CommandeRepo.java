@@ -1,7 +1,6 @@
 package octo.stage.octobereats.infra.repository;
 
 import octo.stage.octobereats.domain.Commande;
-import octo.stage.octobereats.domain.CommandeStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.List;
 @Repository
 public class CommandeRepo implements CommandeRepository{
 
-    private List<Commande> list = new ArrayList<Commande>();
+    private final List<Commande> list = new ArrayList<>();
 
     // récupérer la liste des commandes
     public List<Commande> getCommandes() {
@@ -21,23 +20,6 @@ public class CommandeRepo implements CommandeRepository{
     public Commande addCommande(Commande commande){
         list.add(commande);
         return commande;
-    }
-
-    // changer la status du commande qui a identifiant = id
-    public CommandeStatus changeStatus(long id,CommandeStatus statusApres){
-        for(Commande commande:list) {
-            if (id == commande.getIdCommande()) {
-                CommandeStatus statusAvant = commande.getCommandeStatus();
-                if(statusApres.ordinal()-statusAvant.ordinal()==1){
-                    if((statusAvant==CommandeStatus.PRETE && commande.getIdLivreur()!=0) || statusAvant!=CommandeStatus.PRETE){
-                        commande.setCommandeStatus(statusApres);
-                        return statusApres;
-                    }
-                }
-            }
-        }
-        System.out.println("Le changement du status de commande n'a pas respecté la règle");
-        return null;
     }
 
     // trouver une commande dans la liste à partir son identifiant
@@ -54,15 +36,6 @@ public class CommandeRepo implements CommandeRepository{
     public long getIdLivreur(long id){
         Commande commande = findById(id);
         return commande.getIdLivreur();
-    }
-
-    public boolean checkCommandesSontLivres(List<Commande> commandeList){
-        for(Commande commande:commandeList) {
-            if (commande.getCommandeStatus() != CommandeStatus.LIVREE) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }

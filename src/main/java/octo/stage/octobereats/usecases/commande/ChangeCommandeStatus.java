@@ -1,6 +1,8 @@
 package octo.stage.octobereats.usecases.commande;
 
 import octo.stage.octobereats.domain.CommandeStatus;
+import octo.stage.octobereats.domain.exception.CommandeNePeutPasLivrerException;
+import octo.stage.octobereats.domain.exception.RegleChangementStatusException;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.flux.StatusFlux;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
@@ -19,25 +21,26 @@ public class ChangeCommandeStatus {
         this.statusFlux = statusFlux;
     }
 
-    public CommandeStatus exécuter(CommandeStatus commandeStatus, long idCommande){
-        commandeStatus.setIdCommande(idCommande);
+    public CommandeStatus exécuter(CommandeStatus commandeStatus, long idCommande) throws RegleChangementStatusException, CommandeNePeutPasLivrerException {
         var commande = commandeRepository.findById(idCommande);
         var statusAvant = commande.getCommandeStatus();
 
-        var respecteRegleStatut = (commandeStatus.ordinal() - statusAvant.ordinal()) == 1;
-
-        var commandePrête = statusAvant==CommandeStatus.PRETE;
-        var commandeDejaChoisit = commande.getIdLivreur()!=0;
-
-        if (respecteRegleStatut){
-            if((commandePrête && commandeDejaChoisit) || !commandePrête){
-                commande.setCommandeStatus(commandeStatus);
-                statusFlux.getStatusStream().next(commandeStatus);
-                commandeFlux.getCommandesStream().next(commandeRepository.findById(commandeStatus.getIdCommande()));
-                return commandeStatus;
-            }
+        var nonRespecteRegleChangementStatut = (commandeStatus.ordinal() - statusAvant.ordinal()) != 1;
+        if (nonRespecteRegleChangementStatut) {
+            throw new RegleChangementStatusException();
         }
-        System.out.println("Le changement du status de commande n'a pas respecté la règle");
-        return null;
+
+        var commandePrête = statusAvant == CommandeStatus.PRETE;
+        var commandeIndisponible = commande.getIdLivreur()!=0;
+
+        if(commandePrête && !commandeIndisponible){
+            throw new CommandeNePeutPasLivrerException();
+        }
+
+        commandeStatus.setIdCommande(idCommande);
+        commande.setCommandeStatus(commandeStatus);
+        statusFlux.getStatusStream().next(commandeStatus);
+        commandeFlux.getCommandesStream().next(commande);
+        return commandeStatus;
     }
 }

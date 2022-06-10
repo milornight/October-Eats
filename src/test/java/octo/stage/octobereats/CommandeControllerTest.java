@@ -1,14 +1,10 @@
 package octo.stage.octobereats;
 
-import static octo.stage.octobereats.domain.CommandeStatus.ENVOYE;
-import static octo.stage.octobereats.domain.CommandeStatus.EN_PREPARATION;
 import static org.mockito.Mockito.times;
 
 import java.util.List;
 
 import octo.stage.octobereats.domain.Commande;
-import octo.stage.octobereats.domain.CommandeStatus;
-import octo.stage.octobereats.domain.Livreur;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.flux.StatusFlux;
 import octo.stage.octobereats.infra.controller.CommandeController;
@@ -23,11 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import reactor.core.publisher.ConnectableFlux;
-import reactor.core.publisher.Flux;
 
 @ExtendWith(SpringExtension.class)
 @WebFluxTest(controllers = CommandeController.class)

@@ -3,7 +3,6 @@ package octo.stage.octobereats.infra.controller;
 import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.Plat;
 import octo.stage.octobereats.infra.controller.output.RestaurantOutput;
-import octo.stage.octobereats.infra.repository.RestaurantRepository;
 import octo.stage.octobereats.usecases.restaurant.RecupererLesPlatsDUnRestaurant;
 import octo.stage.octobereats.usecases.restaurant.RecupererLesRestaurants;
 import octo.stage.octobereats.usecases.restaurant.RecupererRestaurant;
@@ -16,8 +15,6 @@ import java.util.List;
 
 @RestController
 public class RestaurantController {
-
-    RestaurantRepository restaurantRepository;
 
     final
     RecupererLesRestaurants recupererLesRestaurants;
@@ -32,8 +29,7 @@ public class RestaurantController {
     SuivreLesCommandesDuRestaurant suivreLesCommandesDuRestaurant;
 
 
-    public RestaurantController(RestaurantRepository restaurantRepository, RecupererLesRestaurants recupererLesRestaurants, RecupererRestaurant recupererRestaurant, RecupererLesPlatsDUnRestaurant recupererLesPlatsDUnRestaurant, SuivreLesCommandesDuRestaurant suivreLesCommandesDuRestaurant) {
-        this.restaurantRepository = restaurantRepository;
+    public RestaurantController(RecupererLesRestaurants recupererLesRestaurants, RecupererRestaurant recupererRestaurant, RecupererLesPlatsDUnRestaurant recupererLesPlatsDUnRestaurant, SuivreLesCommandesDuRestaurant suivreLesCommandesDuRestaurant) {
         this.recupererLesRestaurants = recupererLesRestaurants;
         this.recupererRestaurant = recupererRestaurant;
         this.recupererLesPlatsDUnRestaurant = recupererLesPlatsDUnRestaurant;

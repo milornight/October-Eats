@@ -51,6 +51,7 @@ public class LivreurChoisitCommande {
         if (commandeDejaPris){
             throw new CommandeDejaPrisException();
         }
+
         commande.setIdLivreur(idLivreur);
         livreurRepository.addCommandeDansList(commande, livreur);
         commandeFlux.getCommandesStream().next(commande);

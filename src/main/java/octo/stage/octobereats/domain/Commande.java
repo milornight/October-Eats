@@ -9,7 +9,7 @@ public class Commande {
     private final long idClient;
     private final long idRestaurant;
     private final long idPlat;
-    private int quantite;
+    private final int quantite;
     private CommandeStatus commandeStatus;
     private long idLivreur;
 

@@ -2,7 +2,6 @@ package octo.stage.octobereats.infra.controller;
 
 import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.Livreur;
-import octo.stage.octobereats.infra.repository.LivreurRepository;
 import octo.stage.octobereats.usecases.livreur.CreerLivreur;
 import octo.stage.octobereats.usecases.livreur.RecupererLesLivreurs;
 import octo.stage.octobereats.usecases.livreur.SuivreCommandesDisponibles;
@@ -16,8 +15,6 @@ import java.util.List;
 @RestController
 public class LivreurController {
 
-    LivreurRepository livreurRepository;
-
     final
     RecupererLesLivreurs recupererLesLivreurs;
 
@@ -30,8 +27,7 @@ public class LivreurController {
     final
     SuivreCommandesLivreur suivreCommandesLivreur;
 
-    public LivreurController(LivreurRepository livreurRepository, RecupererLesLivreurs recupererLesLivreurs, CreerLivreur creerLivreur, SuivreCommandesDisponibles suivreCommandesDisponibles, SuivreCommandesLivreur suivreCommandesLivreur) {
-         this.livreurRepository = livreurRepository;
+    public LivreurController(RecupererLesLivreurs recupererLesLivreurs, CreerLivreur creerLivreur, SuivreCommandesDisponibles suivreCommandesDisponibles, SuivreCommandesLivreur suivreCommandesLivreur) {
         this.recupererLesLivreurs = recupererLesLivreurs;
         this.creerLivreur = creerLivreur;
         this.suivreCommandesDisponibles = suivreCommandesDisponibles;

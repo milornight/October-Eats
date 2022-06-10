@@ -5,7 +5,6 @@ import static org.mockito.Mockito.times;
 import java.util.List;
 
 import octo.stage.octobereats.domain.Plat;
-import octo.stage.octobereats.domain.Restaurant;
 import octo.stage.octobereats.infra.controller.RestaurantController;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.repository.RestaurantRepo;
