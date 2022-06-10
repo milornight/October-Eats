@@ -4,6 +4,7 @@ import octo.stage.octobereats.domain.Plat;
 import octo.stage.octobereats.domain.Restaurant;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RestaurantRepository {
     public List<Restaurant> getRestaurants();

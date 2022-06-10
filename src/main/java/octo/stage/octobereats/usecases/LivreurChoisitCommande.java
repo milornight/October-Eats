@@ -2,6 +2,8 @@ package octo.stage.octobereats.usecases;
 
 import octo.stage.octobereats.domain.CommandeStatus;
 import octo.stage.octobereats.domain.Livreur;
+import octo.stage.octobereats.domain.exception.CommandePasPrete;
+import octo.stage.octobereats.domain.exception.LivreurIndisponibleException;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
 import octo.stage.octobereats.infra.repository.LivreurRepository;
@@ -27,7 +29,7 @@ public class LivreurChoisitCommande {
         this.commandeFlux = commandeFlux;
     }
 
-    public Livreur exécuter(long idLivreur, long idCommande) {
+    public Livreur exécuter(long idLivreur, long idCommande) throws LivreurIndisponibleException, CommandePasPrete {
         var commande = commandeRepository.findById(idCommande);
         var livreur = livreurRepository.findById(idLivreur);
         var commandesDuLivreur = livreur.getCommandeList();
@@ -35,11 +37,13 @@ public class LivreurChoisitCommande {
         var livreurEncoreEnLivraison = commandesDuLivreur
                 .stream()
                 .anyMatch(commandeDuLivreur -> commandeDuLivreur.getCommandeStatus() != CommandeStatus.LIVREE);
+        if (livreurEncoreEnLivraison){
+            throw new LivreurIndisponibleException();
+        }
 
         var commandePasPrête = commande.getCommandeStatus() != CommandeStatus.PRETE;
-
-        if (livreurEncoreEnLivraison || commandePasPrête) {
-            return null;
+        if (commandePasPrête) {
+            throw new CommandePasPrete();
         }
 
         commande.setIdLivreur(idLivreur);

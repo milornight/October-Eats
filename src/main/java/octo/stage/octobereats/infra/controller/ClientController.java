@@ -27,17 +27,17 @@ public class ClientController {
     @GetMapping("/clients")
     public List<Client> clients(){
         return clientRepository.getClients();
-    }
+    } //todo : usecase : RecupererLesClients
 
     // post un nouveau client dans la liste
     @PostMapping("/clients")
     public Client newClient(@RequestBody Client client){
         return clientRepository.addClient(client);
-    }
+    } //todo usecase : CreerUnClient
 
     // get la list des commandes lié au client qui a identifiant = id en réactive
     @GetMapping(path="/clients/{id}/commandes", produces= MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<Commande> getCommandeClient(@PathVariable long id) {
         return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdClient() == id);
-    }
+    } //todo usecase : SuivreLesCommandesDuClient
 }

@@ -31,7 +31,7 @@ public class RestaurantControllerTest {
     @MockBean
     RestaurantRepository restaurantRepo;
 
-    @Test
+    /*@Test
     public void testRestaurants() {
         List<Plat> listPlat = List.of(new Plat("chesse",10));
         List<Restaurant> listRestaurant = List.of(new Restaurant("toto","francais",listPlat),
@@ -75,7 +75,7 @@ public class RestaurantControllerTest {
 
         Mockito.verify(restaurantRepo, times(1)).findById(1);
 
-    }
+    }*/
 
     @Test
     public void testPlats(){

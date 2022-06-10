@@ -24,7 +24,7 @@ public class CommandeRepo implements CommandeRepository{
     }
 
     // changer la status du commande qui a identifiant = id
-    /*public CommandeStatus changeStatus(long id,CommandeStatus statusApres){
+    public CommandeStatus changeStatus(long id,CommandeStatus statusApres){
         for(Commande commande:list) {
             if (id == commande.getIdCommande()) {
                 CommandeStatus statusAvant = commande.getCommandeStatus();
@@ -38,7 +38,7 @@ public class CommandeRepo implements CommandeRepository{
         }
         System.out.println("Le changement du status de commande n'a pas respecté la règle");
         return null;
-    }*/
+    }
 
     // trouver une commande dans la liste à partir son identifiant
     public Commande findById(long id){
@@ -56,13 +56,13 @@ public class CommandeRepo implements CommandeRepository{
         return commande.getIdLivreur();
     }
 
-   /* public boolean checkCommandesSontLivres(List<Commande> commandeList){
+    public boolean checkCommandesSontLivres(List<Commande> commandeList){
         for(Commande commande:commandeList) {
             if (commande.getCommandeStatus() != CommandeStatus.LIVREE) {
                 return false;
             }
         }
         return true;
-    }*/
+    }
 
 }

@@ -18,6 +18,7 @@ public enum CommandeStatus {
         this.idCommande = idCommande;
     }
 
+
     @Override
     public String toString() {
         return "CommandeStatus{" +

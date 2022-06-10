@@ -18,6 +18,12 @@ public class Restaurant {
         this.plats = plats;
     }
 
+    public Restaurant(String nom, String type){
+        this.id = ++count;
+        this.nom = nom;
+        this.type = type;
+    }
+
     public long getId() {
         return this.id;
     }
