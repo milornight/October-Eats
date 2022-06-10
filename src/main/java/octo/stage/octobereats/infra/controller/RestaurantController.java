@@ -35,8 +35,9 @@ public class RestaurantController {
 
     // get la restaurant qui a identifiant = id
     @GetMapping("/restaurants/{id}")
-    public Restaurant one(@PathVariable long id) {
-        return restaurantRepository.findById(id);
+    public RestaurantOutput one(@PathVariable long id) {
+        Restaurant restaurant = restaurantRepository.findById(id);
+        return new RestaurantOutput(restaurant);
     } // todo: usecase : RecupererRestaurant
 
     // get la liste de plat du restaurant qui a identifiant = id

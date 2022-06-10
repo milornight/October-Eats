@@ -3,13 +3,14 @@ package octo.stage.octobereats.infra.controller;
 import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.CommandeStatus;
 import octo.stage.octobereats.domain.Livreur;
-import octo.stage.octobereats.domain.exception.CommandePasPrete;
+import octo.stage.octobereats.domain.exception.CommandeDejaPrisException;
+import octo.stage.octobereats.domain.exception.CommandePasPreteException;
 import octo.stage.octobereats.domain.exception.LivreurIndisponibleException;
+import octo.stage.octobereats.infra.controller.output.LivreurOutput;
 import octo.stage.octobereats.infra.repository.CommandeRepository;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.flux.StatusFlux;
 import octo.stage.octobereats.infra.repository.LivreurRepository;
-import octo.stage.octobereats.infra.repository.StatusRepository;
 import octo.stage.octobereats.usecases.ChangeCommandeStatus;
 import octo.stage.octobereats.usecases.ClientEnvoyerCommande;
 import org.reactivestreams.Publisher;
@@ -21,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import octo.stage.octobereats.usecases.LivreurChoisitCommande;
 
 import java.util.List;
-
-import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
 // un controller sert à recevoir des arguments, les donner à un usecase (domain)
 // et retourne le résultat du usecase en tant que réponse
@@ -81,10 +80,10 @@ public class CommandeController {
 
     // put le nouveau status du commande qui a identifiant = id
     @PutMapping("/commandes/{id}/status")
-    public CommandeStatus newStatus(@RequestBody Object body, @PathVariable long id){
+    public CommandeStatus newStatus(@RequestBody CommandeStatus status, @PathVariable long id){
 
        // CommandeStatus status = statusRepository.convertir(body);
-        CommandeStatus status = (CommandeStatus) body;
+        //CommandeStatus status = (CommandeStatus) body;
         status.setIdCommande(id);
         CommandeStatus commandeStatus = commandeRepository.changeStatus(id,status);
         statusFlux.getStatusStream().next(commandeStatus);
@@ -104,44 +103,26 @@ public class CommandeController {
     // put le livreur pour prend charge du commande identifiant=id
     @PutMapping("/commandes/{id}/livreur")
     public ResponseEntity choisirCommande(@RequestBody long idLivreur, @PathVariable long id){
-        /*Commande commande = commandeRepository.findById(id);
-        Livreur livreur = livreurRepository.findById(idLivreur);
-        List<Commande> commandeList = livreur.getCommandeList();
-
-        if(commandeRepository.checkCommandesSontLivres(commandeList) && commande.getCommandeStatus()==CommandeStatus.PRETE) {
-            commande.setIdLivreur(idLivreur);
-            livreurRepository.addCommandeDansList(commande, livreur);
-            commandeFlux.getCommandesStream().next(commande);
-            return ResponseEntity
-                    .status(HttpStatus.ACCEPTED)
-                    .body(livreur);
-        }
-
-
-        //throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error");
-
-        return ResponseEntity
-                .status(HttpStatus.UNPROCESSABLE_ENTITY)
-                .body("Error: Livreur n'a pas encore fini de livrer sa commande précédente");*/
         try {
-            Livreur livreur =livreurChoisitCommande.exécuter(idLivreur,id);
+            Livreur livreur = livreurChoisitCommande.exécuter(idLivreur,id);
             return ResponseEntity
                     .status(HttpStatus.ACCEPTED)
-                    .body(livreur);
-        } catch (CommandePasPrete|LivreurIndisponibleException e) {
+                    .body(new LivreurOutput(livreur));
+
+        } catch (CommandePasPreteException |LivreurIndisponibleException | CommandeDejaPrisException e) {
             return ResponseEntity
                     .status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body(e.getMessage());
         }
-
     }
 
 
     // get les informations du livreur qui prend charge le commande identifiant=id
     @GetMapping("/commandes/{id}/livreur")
-    public Livreur getCommandeLivreur(@PathVariable long id){
+    public LivreurOutput getCommandeLivreur(@PathVariable long id){
         long idLivreur = commandeRepository.getIdLivreur(id);
-        return livreurRepository.findById(idLivreur);
+        Livreur livreur = livreurRepository.findById(idLivreur);
+        return new LivreurOutput(livreur);
     }// todo: usecase : RecupererLeLivreurDeLaCommande
 
 }

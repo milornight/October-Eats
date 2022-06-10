@@ -1,8 +1,9 @@
 package octo.stage.octobereats.domain.exception;
 
-public class CommandePasPrete extends Exception {
+public class CommandePasPreteException extends Exception {
 
-    public CommandePasPrete() {
+    public CommandePasPreteException() {
         super("Erreur : La commande n'est pas encore prête");
     }
 }
+
