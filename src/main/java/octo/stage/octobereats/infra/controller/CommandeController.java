@@ -11,15 +11,15 @@ import octo.stage.octobereats.infra.repository.CommandeRepository;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.flux.StatusFlux;
 import octo.stage.octobereats.infra.repository.LivreurRepository;
-import octo.stage.octobereats.usecases.ChangeCommandeStatus;
-import octo.stage.octobereats.usecases.ClientEnvoyerCommande;
+import octo.stage.octobereats.usecases.commande.ChangeCommandeStatus;
+import octo.stage.octobereats.usecases.commande.ClientEnvoyerCommande;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import octo.stage.octobereats.usecases.LivreurChoisitCommande;
+import octo.stage.octobereats.usecases.commande.LivreurChoisitCommande;
 
 import java.util.List;
 

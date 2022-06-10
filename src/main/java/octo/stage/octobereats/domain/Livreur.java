@@ -7,10 +7,10 @@ import java.util.Objects;
 public class Livreur {
 
     private static long count = 0;
-    private long id;
-    private String nom;
-    private String prenom;
-    private List<Commande> commandeList;
+    private final long id;
+    private final String nom;
+    private final String prenom;
+    private final List<Commande> commandeList;
 
     public Livreur(String nom, String prenom) {
         this.id = ++count;

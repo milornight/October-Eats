@@ -1,4 +1,4 @@
-package octo.stage.octobereats.usecases;
+package octo.stage.octobereats.usecases.commande;
 
 import octo.stage.octobereats.domain.CommandeStatus;
 import octo.stage.octobereats.infra.flux.CommandeFlux;

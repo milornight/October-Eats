@@ -5,10 +5,10 @@ import java.util.Objects;
 public class Commande {
 
     private static long count = 0;
-    private long idCommande;
-    private long idClient;
-    private long idRestaurant;
-    private long idPlat;
+    private final long idCommande;
+    private final long idClient;
+    private final long idRestaurant;
+    private final long idPlat;
     private int quantite;
     private CommandeStatus commandeStatus;
     private long idLivreur;

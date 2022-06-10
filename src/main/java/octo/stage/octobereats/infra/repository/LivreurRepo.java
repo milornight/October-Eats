@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public class LivreurRepo implements LivreurRepository{
 
-    private List<Livreur> list = new ArrayList<>();
+    private final List<Livreur> list = new ArrayList<>();
 
     // récupérer la liste des livreurs
     public List<Livreur> getLivreurs(){
@@ -23,10 +23,9 @@ public class LivreurRepo implements LivreurRepository{
         return livreur;
     }
 
-    public Commande addCommandeDansList(Commande commande,Livreur livreur){
+    public void addCommandeDansList(Commande commande, Livreur livreur){
         List<Commande> commandeList = livreur.getCommandeList();
         commandeList.add(commande);
-        return commande;
     }
 
     public Livreur findById(long id){

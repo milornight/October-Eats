@@ -9,13 +9,11 @@ import reactor.core.publisher.FluxSink;
 @Component
 public class CommandeFlux {
 
-    private ConnectableFlux<Commande> commandesPublisher;
+    private final ConnectableFlux<Commande> commandesPublisher;
     private FluxSink<Commande> commandesStream;
 
     public CommandeFlux() {
-        Flux<Commande> publisher = Flux.create(emitter -> {
-            commandesStream = emitter;
-        });
+        Flux<Commande> publisher = Flux.create(emitter -> commandesStream = emitter);
 
         commandesPublisher = publisher.publish();
         commandesPublisher.connect();

@@ -4,9 +4,9 @@ import octo.stage.octobereats.domain.Livreur;
 
 public class LivreurOutput {
 
-    private long id;
-    private String nom;
-    private String prenom;
+    private final long id;
+    private final String nom;
+    private final String prenom;
 
     public LivreurOutput(Livreur livreur) {
         this.id = livreur.getId();

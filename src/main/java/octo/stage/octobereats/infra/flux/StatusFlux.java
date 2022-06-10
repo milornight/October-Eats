@@ -9,13 +9,11 @@ import reactor.core.publisher.FluxSink;
 @Component
 public class StatusFlux {
 
-    private ConnectableFlux<CommandeStatus> statusPublisher;
+    private final ConnectableFlux<CommandeStatus> statusPublisher;
     private FluxSink<CommandeStatus> statusStream;
 
     public StatusFlux() {
-        Flux<CommandeStatus> publisher = Flux.create(emitter -> {
-            statusStream = emitter;
-        });
+        Flux<CommandeStatus> publisher = Flux.create(emitter -> statusStream = emitter);
 
         statusPublisher = publisher.publish();
         statusPublisher.connect();

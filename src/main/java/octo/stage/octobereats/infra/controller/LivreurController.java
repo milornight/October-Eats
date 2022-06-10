@@ -1,12 +1,13 @@
 package octo.stage.octobereats.infra.controller;
 
 import octo.stage.octobereats.domain.Commande;
-import octo.stage.octobereats.domain.CommandeStatus;
 import octo.stage.octobereats.domain.Livreur;
-import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.repository.LivreurRepository;
+import octo.stage.octobereats.usecases.livreur.CreerLivreur;
+import octo.stage.octobereats.usecases.livreur.RecupererLesLivreurs;
+import octo.stage.octobereats.usecases.livreur.SuivreCommandesDisponibles;
+import octo.stage.octobereats.usecases.livreur.SuivreCommandesLivreur;
 import org.reactivestreams.Publisher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,41 +16,50 @@ import java.util.List;
 @RestController
 public class LivreurController {
 
-    @Autowired
     LivreurRepository livreurRepository;
 
-    @Autowired
-    CommandeFlux commandeFlux;
+    final
+    RecupererLesLivreurs recupererLesLivreurs;
 
-    public LivreurController(LivreurRepository livreurRepository) {
+    final
+    CreerLivreur creerLivreur;
+
+    final
+    SuivreCommandesDisponibles suivreCommandesDisponibles;
+
+    final
+    SuivreCommandesLivreur suivreCommandesLivreur;
+
+    public LivreurController(LivreurRepository livreurRepository, RecupererLesLivreurs recupererLesLivreurs, CreerLivreur creerLivreur, SuivreCommandesDisponibles suivreCommandesDisponibles, SuivreCommandesLivreur suivreCommandesLivreur) {
          this.livreurRepository = livreurRepository;
+        this.recupererLesLivreurs = recupererLesLivreurs;
+        this.creerLivreur = creerLivreur;
+        this.suivreCommandesDisponibles = suivreCommandesDisponibles;
+        this.suivreCommandesLivreur = suivreCommandesLivreur;
     }
 
     // get la liste des livreurs
     @GetMapping("/livreurs")
     public List<Livreur> livreurs(){
-        return livreurRepository.getLivreurs();
-    }// todo: usecase : RecupererLesLivreurs
+        return recupererLesLivreurs.exécuter();
+    }
 
     // post un nouveau livreur dans la liste
     @PostMapping("/livreurs")
     public Livreur newLivreur(@RequestBody Livreur livreur){
-        return livreurRepository.addLivreur(livreur);
-    } // todo: usecase : CreerLivreur
+        return creerLivreur.exécuter(livreur);
+    }
 
     // get la liste des commandes qui ne sont pas encore choisies par les livreurs en réactive
-    @GetMapping(path="/livreurs/commandesPasEncoreChoisies", produces= MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Publisher<Commande> getCommandesPasEncoreChoisies(){
-        return commandeFlux.getCommandesPublisher().filter(commande ->
-                commande.getCommandeStatus() != CommandeStatus.EN_LIVRAISON &&
-                        commande.getCommandeStatus() != CommandeStatus.LIVREE &&
-                                commande.getIdLivreur() == 0);
-    }// todo: usecase : SuivreCommandesDisponibles (et renommer pasEncoreChoisies en Disponibles)
+    @GetMapping(path="/livreurs/commandesDisponibles", produces= MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Publisher<Commande> getCommandesDisponibles(){
+        return suivreCommandesDisponibles.exécuter();
+    }
 
     // get les commandes choisies pour le livreur identifiant=id
     @GetMapping(path="/livreurs/{id}/commandes",produces=MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<Commande> getCommandeLivreur(@PathVariable long id){
-        return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdLivreur() == id);
-    }// todo: usecase : SuivreCommandesLivreur
+        return suivreCommandesLivreur.exécuter(id);
+    }
 
 }
