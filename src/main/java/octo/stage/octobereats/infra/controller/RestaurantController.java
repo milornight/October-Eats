@@ -7,13 +7,13 @@ import octo.stage.octobereats.infra.controller.output.RestaurantOutput;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.repository.RestaurantRepository;
 import octo.stage.octobereats.usecases.restaurant.RecupererLesRestaurants;
+import octo.stage.octobereats.usecases.restaurant.RecupererRestaurant;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class RestaurantController {
@@ -25,6 +25,9 @@ public class RestaurantController {
 
     @Autowired
     RecupererLesRestaurants recupererLesRestaurants;
+
+    @Autowired
+    RecupererRestaurant recupererRestaurant;
 
     public RestaurantController(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
@@ -39,9 +42,8 @@ public class RestaurantController {
     // get la restaurant qui a identifiant = id
     @GetMapping("/restaurants/{id}")
     public RestaurantOutput one(@PathVariable long id) {
-        Restaurant restaurant = restaurantRepository.findById(id);
-        return new RestaurantOutput(restaurant);
-    } // todo: usecase : RecupererRestaurant
+        return recupererRestaurant.exécuter(id);
+    }
 
     // get la liste de plat du restaurant qui a identifiant = id
     @GetMapping("/restaurants/{id}/plats")
