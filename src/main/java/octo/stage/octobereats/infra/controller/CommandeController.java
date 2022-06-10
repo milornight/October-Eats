@@ -51,9 +51,6 @@ public class CommandeController {
     @Autowired
     ClientEnvoyerCommande clientEnvoyerCommande;
 
-    @Autowired
-    StatusRepository statusRepository;
-
     public CommandeController(CommandeRepository commandeRepository,LivreurRepository livreurRepository) {
         this.commandeRepository = commandeRepository;
         this.livreurRepository = livreurRepository;

@@ -6,6 +6,7 @@ import octo.stage.octobereats.domain.Restaurant;
 import octo.stage.octobereats.infra.controller.output.RestaurantOutput;
 import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.repository.RestaurantRepository;
+import octo.stage.octobereats.usecases.restaurant.RecupererLesRestaurants;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,6 +23,9 @@ public class RestaurantController {
     @Autowired
     CommandeFlux commandeFlux;
 
+    @Autowired
+    RecupererLesRestaurants recupererLesRestaurants;
+
     public RestaurantController(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
@@ -29,9 +33,8 @@ public class RestaurantController {
     // get une liste de restaurants
     @GetMapping("/restaurants")
     public List<RestaurantOutput> restaurants(){
-        List<Restaurant> restaurants = restaurantRepository.getRestaurants();
-        return restaurants.stream().map(RestaurantOutput::new).toList();
-    }// todo: usecase : RecupererLesRestaurants
+        return recupererLesRestaurants.exécuter();
+    }
 
     // get la restaurant qui a identifiant = id
     @GetMapping("/restaurants/{id}")
