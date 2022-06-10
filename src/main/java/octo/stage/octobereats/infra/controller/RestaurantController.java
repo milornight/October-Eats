@@ -2,14 +2,13 @@ package octo.stage.octobereats.infra.controller;
 
 import octo.stage.octobereats.domain.Commande;
 import octo.stage.octobereats.domain.Plat;
-import octo.stage.octobereats.domain.Restaurant;
 import octo.stage.octobereats.infra.controller.output.RestaurantOutput;
-import octo.stage.octobereats.infra.flux.CommandeFlux;
 import octo.stage.octobereats.infra.repository.RestaurantRepository;
+import octo.stage.octobereats.usecases.restaurant.RecupererLesPlatsDUnRestaurant;
 import octo.stage.octobereats.usecases.restaurant.RecupererLesRestaurants;
 import octo.stage.octobereats.usecases.restaurant.RecupererRestaurant;
+import octo.stage.octobereats.usecases.restaurant.SuivreLesCommandesDuRestaurant;
 import org.reactivestreams.Publisher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,17 +19,25 @@ public class RestaurantController {
 
     RestaurantRepository restaurantRepository;
 
-    @Autowired
-    CommandeFlux commandeFlux;
-
-    @Autowired
+    final
     RecupererLesRestaurants recupererLesRestaurants;
 
-    @Autowired
+    final
     RecupererRestaurant recupererRestaurant;
 
-    public RestaurantController(RestaurantRepository restaurantRepository) {
+    final
+    RecupererLesPlatsDUnRestaurant recupererLesPlatsDUnRestaurant;
+
+    final
+    SuivreLesCommandesDuRestaurant suivreLesCommandesDuRestaurant;
+
+
+    public RestaurantController(RestaurantRepository restaurantRepository, RecupererLesRestaurants recupererLesRestaurants, RecupererRestaurant recupererRestaurant, RecupererLesPlatsDUnRestaurant recupererLesPlatsDUnRestaurant, SuivreLesCommandesDuRestaurant suivreLesCommandesDuRestaurant) {
         this.restaurantRepository = restaurantRepository;
+        this.recupererLesRestaurants = recupererLesRestaurants;
+        this.recupererRestaurant = recupererRestaurant;
+        this.recupererLesPlatsDUnRestaurant = recupererLesPlatsDUnRestaurant;
+        this.suivreLesCommandesDuRestaurant = suivreLesCommandesDuRestaurant;
     }
 
     // get une liste de restaurants
@@ -48,13 +55,13 @@ public class RestaurantController {
     // get la liste de plat du restaurant qui a identifiant = id
     @GetMapping("/restaurants/{id}/plats")
     public List<Plat> plats(@PathVariable long id) {
-        return restaurantRepository.getPlats(id);
-    } // todo: usecase : RecupererLesPlatsDUnRestaurant
+        return recupererLesPlatsDUnRestaurant.exécuter(id);
+    }
 
-    // get la list des commandes lié au restaurant qui a identifiant = id en réactive
+    // get la liste des commandes lié au restaurant qui a identifiant = id en réactive
     @GetMapping(path="/restaurants/{id}/commandes", produces= MediaType.TEXT_EVENT_STREAM_VALUE)
     public Publisher<Commande> getCommandeRestaurant(@PathVariable long id) {
-        return commandeFlux.getCommandesPublisher().filter((commande)-> commande.getIdRestaurant() == id);
-    }// todo: usecase : SuivreLesCommandesDuRestaurant
+        return suivreLesCommandesDuRestaurant.exécuter(id);
+    }
 
 }

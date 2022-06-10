@@ -5,18 +5,16 @@ import octo.stage.octobereats.domain.Restaurant;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class RestaurantRepo implements RestaurantRepository {
 
-    private List<Restaurant> list = new ArrayList<Restaurant>();
-    private List<Plat> LP1 = new ArrayList<Plat>();
-    private List<Plat> LP2 = new ArrayList<Plat>();
-    private List<Plat> LP3 = new ArrayList<Plat>();
-    private List<Plat> LP4 = new ArrayList<Plat>();
+    private final List<Restaurant> list = new ArrayList<>();
+    private final List<Plat> LP1 = new ArrayList<>();
+    private final List<Plat> LP2 = new ArrayList<>();
+    private final List<Plat> LP3 = new ArrayList<>();
+    private final List<Plat> LP4 = new ArrayList<>();
 
     Plat P1 = new Plat("Chesse cake", 6);
     Plat P2 = new Plat("Mochi", 4);

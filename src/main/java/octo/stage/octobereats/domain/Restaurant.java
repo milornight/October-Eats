@@ -7,21 +7,15 @@ public class Restaurant {
 
     private static long count = 0;
     private long id;
-    private String nom;
-    private String type;
-    private List<Plat> plats;
+    private final String nom;
+    private final String type;
+    private final List<Plat> plats;
 
     public Restaurant(String nom, String type, List<Plat> plats) {
         this.id = ++count;
         this.nom = nom;
         this.type = type;
         this.plats = plats;
-    }
-
-    public Restaurant(String nom, String type){
-        this.id = ++count;
-        this.nom = nom;
-        this.type = type;
     }
 
     public long getId() {
