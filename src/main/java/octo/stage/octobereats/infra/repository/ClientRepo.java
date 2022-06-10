@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public class ClientRepo implements ClientRepository{
 
-    private List<Client> list = new ArrayList<Client>();
+    private final List<Client> list = new ArrayList<>();
 
     Client C1 = new Client("Hubert","Lola");
     Client C2 = new Client("Meunier","Tom");

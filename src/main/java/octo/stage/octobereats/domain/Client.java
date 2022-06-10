@@ -5,8 +5,8 @@ import java.util.Objects;
 public class Client {
     private static long count = 0;
     private long id;
-    private String nom;
-    private String prenom;
+    private final String nom;
+    private final String prenom;
 
     public Client(String nom, String prenom) {
         this.id = ++count;

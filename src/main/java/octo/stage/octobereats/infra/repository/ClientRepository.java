@@ -5,6 +5,6 @@ import octo.stage.octobereats.domain.Client;
 import java.util.List;
 
 public interface ClientRepository {
-    public List<Client> getClients();
-    public Client addClient(Client client);
+    List<Client> getClients();
+    Client addClient(Client client);
 }

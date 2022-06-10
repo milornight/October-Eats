@@ -5,9 +5,9 @@ import java.util.Objects;
 public class Plat {
 
     private static long count = 0;
-    private long id;
-    private String nom;
-    private float prix;
+    private final long id;
+    private final String nom;
+    private final float prix;
 
     public Plat(String nom, float prix) {
         this.id = ++count;
