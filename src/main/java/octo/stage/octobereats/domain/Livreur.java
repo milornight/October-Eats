@@ -1,5 +1,7 @@
 package octo.stage.octobereats.domain;
 
+import octo.stage.octobereats.domain.exception.LivreurIndisponibleException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -17,6 +19,21 @@ public class Livreur {
         this.nom = nom;
         this.prenom = prenom;
         this.commandeList = new ArrayList<>();
+    }
+
+    public void addCommande(Commande commande){
+        commandeList.add(commande);
+    }
+
+    public void verifierEstLibre() throws LivreurIndisponibleException {
+        var commandesDuLivreur = this.getCommandeList();
+
+        var livreurEncoreEnLivraison = commandesDuLivreur
+                .stream()
+                .anyMatch(commandeDuLivreur -> commandeDuLivreur.getCommandeStatus() != CommandeStatus.LIVREE);
+        if (livreurEncoreEnLivraison){
+            throw new LivreurIndisponibleException();
+        }
     }
 
     public long getId() {

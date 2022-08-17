@@ -33,14 +33,8 @@ public class LivreurChoisitCommande {
     public Livreur exécuter(long idLivreur, long idCommande) throws LivreurIndisponibleException, CommandePasPreteException, CommandeDejaPrisException {
         var commande = commandeRepository.findById(idCommande);
         var livreur = livreurRepository.findById(idLivreur);
-        var commandesDuLivreur = livreur.getCommandeList();
 
-        var livreurEncoreEnLivraison = commandesDuLivreur
-                .stream()
-                .anyMatch(commandeDuLivreur -> commandeDuLivreur.getCommandeStatus() != CommandeStatus.LIVREE);
-        if (livreurEncoreEnLivraison){
-            throw new LivreurIndisponibleException();
-        }
+        livreur.verifierEstLibre();
 
         var commandePasPrête = commande.getCommandeStatus() != CommandeStatus.PRETE;
         if (commandePasPrête) {

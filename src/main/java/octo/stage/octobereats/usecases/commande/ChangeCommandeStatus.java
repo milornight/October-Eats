@@ -21,26 +21,15 @@ public class ChangeCommandeStatus {
         this.statusFlux = statusFlux;
     }
 
-    public CommandeStatus exécuter(CommandeStatus commandeStatus, long idCommande) throws RegleChangementStatusException, CommandeNePeutPasLivrerException {
+    public CommandeStatus exécuter(CommandeStatus nouveauStatus, long idCommande) throws RegleChangementStatusException, CommandeNePeutPasLivrerException {
         var commande = commandeRepository.findById(idCommande);
-        var statusAvant = commande.getCommandeStatus();
 
-        var nonRespecteRegleChangementStatut = (commandeStatus.ordinal() - statusAvant.ordinal()) != 1;
-        if (nonRespecteRegleChangementStatut) {
-            throw new RegleChangementStatusException();
-        }
-
-        var commandePrête = statusAvant == CommandeStatus.PRETE;
-        var commandeIndisponible = commande.getIdLivreur()!=0;
-
-        if(commandePrête && !commandeIndisponible){
-            throw new CommandeNePeutPasLivrerException();
-        }
-
-        commandeStatus.setIdCommande(idCommande);
-        commande.setCommandeStatus(commandeStatus);
-        statusFlux.getStatusStream().next(commandeStatus);
+        commande.vérifierPeutChangerDeStatus(nouveauStatus);
+        nouveauStatus.setIdCommande(idCommande);
+        commande.setCommandeStatus(nouveauStatus);
+        statusFlux.getStatusStream().next(nouveauStatus);
         commandeFlux.getCommandesStream().next(commande);
-        return commandeStatus;
+        return nouveauStatus;
     }
 }
+

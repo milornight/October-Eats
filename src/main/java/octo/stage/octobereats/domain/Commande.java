@@ -1,5 +1,8 @@
 package octo.stage.octobereats.domain;
 
+import octo.stage.octobereats.domain.exception.CommandeNePeutPasLivrerException;
+import octo.stage.octobereats.domain.exception.RegleChangementStatusException;
+
 import java.util.Objects;
 
 public class Commande {
@@ -23,6 +26,22 @@ public class Commande {
         this.commandeStatus = CommandeStatus.ENVOYE;
         commandeStatus.setIdCommande(idCommande);
         this.idLivreur = 0;
+    }
+
+    public void vérifierPeutChangerDeStatus(CommandeStatus nouveauStatus) throws RegleChangementStatusException, CommandeNePeutPasLivrerException {
+        var statusAvant = this.getCommandeStatus();
+
+        var nonRespecteRegleChangementStatut = (nouveauStatus.ordinal() - statusAvant.ordinal()) != 1;
+        if (nonRespecteRegleChangementStatut) {
+            throw new RegleChangementStatusException();
+        }
+
+        var commandePrête = statusAvant == CommandeStatus.PRETE;
+        var commandeNAPasLivreur = this.getIdLivreur() == 0;
+
+        if(commandePrête && commandeNAPasLivreur){
+            throw new CommandeNePeutPasLivrerException();
+        }
     }
 
     public long getIdCommande() {
